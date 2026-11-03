@@ -4,8 +4,12 @@
 Run: python build_page.py"""
 import json, sys
 tpl = open("template.html", encoding="utf-8").read()
-data = json.dumps(json.load(open("data.json", encoding="utf-8")), ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-body = tpl.replace("__DATA__", data)
+_d = json.load(open("data.json", encoding="utf-8"))
+try: _d["forecasts"] = json.load(open("forecasts.json", encoding="utf-8"))
+except FileNotFoundError: pass
+data = json.dumps(_d, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+i18n = open("i18n.js", encoding="utf-8").read()
+body = tpl.replace("/*__I18N__*/", i18n).replace("__DATA__", data)
 open("artifact.html", "w", encoding="utf-8").write(body)
 head, rest = body.split("</style>", 1)
 doc = ('<!doctype html>\n<html lang="es"><head><meta charset="utf-8">'

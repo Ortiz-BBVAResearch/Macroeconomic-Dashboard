@@ -58,6 +58,18 @@ CAT = [
     ("turistas", "mineco", "247100", "Entrada de turistas internacionales (Frontur)", "% a/a", "M", "coyuntura", {"transform": "yoy"}),
     ("gasto_tur", "mineco", "247321", "Gasto de turistas internacionales (Egatur)", "% a/a", "M", "coyuntura", {"transform": "yoy"}),
     ("hipotecas", "ine", "HPT34618", "Hipotecas sobre viviendas (número)", "% a/a", "M", "coyuntura", {"transform": "yoy"}),
+    # Vivienda (Ministerio de Vivienda y Agenda Urbana y Notariado, vía BDSICE; crédito, Banco de España)
+    ("viv_visados", "mineco", "230410g", "Visados de obra nueva: viviendas (12 meses)", "miles", "M", "vivienda", {"transform": "sum12", "source": "Ministerio de Vivienda y Agenda Urbana (BDSICE)"}),
+    ("viv_visados_yoy", "mineco", "230410g", "Visados de obra nueva: viviendas (12 meses)", "% a/a", "M", "vivienda", {"transform": "sum12yoy", "source": "Ministerio de Vivienda y Agenda Urbana (BDSICE)"}),
+    ("viv_iniciadas", "mineco", "232020e", "Viviendas iniciadas (12 meses)", "miles", "M", "vivienda", {"transform": "sum12", "source": "Ministerio de Vivienda y Agenda Urbana (BDSICE)"}),
+    ("viv_terminadas", "mineco", "232030e", "Viviendas terminadas (12 meses)", "miles", "M", "vivienda", {"transform": "sum12", "source": "Ministerio de Vivienda y Agenda Urbana (BDSICE)"}),
+    ("viv_protegida", "mineco", "232640", "Vivienda protegida: calificaciones definitivas (12 meses)", "miles", "M", "vivienda", {"transform": "sum12", "source": "Ministerio de Vivienda y Agenda Urbana (BDSICE)"}),
+    ("viv_compraventas", "mineco", "233700", "Compraventa de viviendas (12 meses)", "miles", "M", "vivienda", {"transform": "sum12", "source": "Consejo General del Notariado (BDSICE)"}),
+    ("viv_compraventas_yoy", "mineco", "233700", "Compraventa de viviendas (12 meses)", "% a/a", "M", "vivienda", {"transform": "sum12yoy", "source": "Consejo General del Notariado (BDSICE)"}),
+    ("viv_tasado", "mineco", "449990", "Valor tasado de la vivienda libre", "€/m²", "Q", "vivienda", {"source": "Ministerio de Vivienda y Agenda Urbana (BDSICE)"}),
+    ("viv_tasado_yoy", "mineco", "449990", "Valor tasado de la vivienda libre", "% a/a", "Q", "vivienda", {"transform": "yoy", "source": "Ministerio de Vivienda y Agenda Urbana (BDSICE)"}),
+    ("viv_coste", "mineco", "470111", "Coste de construcción residencial", "% a/a", "M", "vivienda", {"transform": "yoy", "source": "Ministerio de Vivienda y Agenda Urbana (BDSICE)"}),
+    ("viv_credito", "bde:be0413", "D_MEE62100", "Crédito a hogares para adquisición de vivienda (saldo)", "% a/a", "Q", "vivienda", {"transform": "yoy", "note": "Variación del saldo vivo; no corrige saneamientos ni reclasificaciones."}),
     # Mercado laboral
     ("paro_epa", "ine", "EPA423474", "Tasa de paro (EPA)", "%", "Q", "empleo", {}),
     ("ocup_epa", "ine", "EPA387796", "Ocupados (EPA)", "miles", "Q", "empleo", {}),
@@ -182,11 +194,13 @@ def yoy(obs, freq):
         if prev not in (None, 0): out.append([d, round(100 * (v / prev - 1), 2), f])
     return out
 
+def _months(d): return int(d[:4]) * 12 + int(d[5:7])
 def rolling_sum(obs, n):
     out = []
     for i in range(n - 1, len(obs)):
         w = obs[i - n + 1:i + 1]
-        # require consecutive periods
+        step = (_months(w[-1][0]) - _months(w[0][0])) / (n - 1) if n > 1 else 1
+        if step not in (1, 3): continue   # window has gaps: skip
         out.append([obs[i][0], sum(x[1] for x in w), max(x[2] for x in w)])
     return out
 
@@ -209,10 +223,13 @@ def main(path):
             else: name, obs = mineco_series(code); link = MINECO_LINK; sname = "Ministerio de Economía (BDSICE)"
             tr = extra.get("transform")
             if tr == "yoy": obs = yoy(obs, freq)
+            elif tr == "sum12": obs = [[d, round(v / 1000, 3), f] for d, v, f in rolling_sum(obs, 12)]
+            elif tr == "sum12yoy": obs = yoy(rolling_sum(obs, 12), freq)
             start = DAILY_START if freq == "D" else START
             obs = [[d, round(v, 4), f] for d, v, f in obs if d >= start]
             if freq == "Q": obs = [[q_of(d), v, f] for d, v, f in obs]   # BdE dates quarters by their last month
             if not obs: raise ValueError("sin observaciones")
+            if extra.get("source"): sname = extra["source"]
             series[sid] = dict(label=label, unit=unit, freq=freq, block=block, source=sname, code=code,
                                table=src.split(":")[1] if ":" in src else None, original_name=name, link=link,
                                transform=tr, note=extra.get("note"), data=obs)

@@ -7,7 +7,9 @@ Dashboard estático (GitHub Pages) con los principales indicadores macroeconómi
 |---|---|
 | `update_data.py` | Descarga ~60 series (API Tempus3 del INE, CSV del BdE, ZIP completo de BDSICE) y escribe `data.json`. Catálogo de series al principio del script (`CAT`). |
 | `build_page.py` | Incrusta `data.json` en `template.html` → `index.html` (documento completo, funciona también offline) y `artifact.html` (versión para claude.ai). |
-| `template.html` | Página: pestañas Resumen, Actividad, Empleo, Precios, Sector público y exterior, Financiero, Tablas, Fuentes y método. Gráficos SVG propios, sin librerías. |
+| `i18n.js` | Traducciones al inglés (clave = texto en español). `build_page.py` lo incrusta en la página; el selector ES / EN de la cabecera cambia el idioma y se recuerda en el navegador. También se puede abrir directamente en inglés con `?lang=en`. |
+| `forecasts.json` | Previsiones de BBVA Research (Spain Economic Outlook). Se edita a mano con cada nuevo informe. |
+| `template.html` | Página: pestañas Resumen, Explorador, Actividad, Empleo, Precios, Sector público y exterior, Financiero, Vivienda, Previsiones, Tablas, Fuentes y método. Gráficos SVG propios, sin librerías. |
 | `.github/workflows/update-data.yml` | Ejecuta los dos scripts los días laborables (09:17 y 16:17 Madrid en invierno) y con *Run workflow* manual; hace commit si cambian los datos. |
 | `update_log.md` | Registro de cada actualización y errores de descarga. |
 
