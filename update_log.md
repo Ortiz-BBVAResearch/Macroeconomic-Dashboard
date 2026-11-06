@@ -1,2 +1,3 @@
 - 2026-11-05 18:00: 73 series
 - 2026-11-06 09:41: 75 series
+- 2026-11-06 16:56: 75 series; errores: paro_reg (total): No module named 'pandas'; paro_reg_yoy (total): No module named 'pandas'
