@@ -172,6 +172,13 @@ table.fc td.f{font-weight:600}
 .ylab{font-size:11.5px;color:var(--muted);margin:2px 0 4px}
 select.axsel{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);color:var(--ink);width:100%;max-width:420px}
 select.addSeries{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);color:var(--ink);max-width:420px;width:100%}
+.fc2 th.blklast,.fc2 td.blklast{border-right:2px solid var(--rule)}
+.fc2 tr.hgrp th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);text-align:center;border-bottom:0;padding-bottom:2px}
+.tblnav{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 22px;font-size:13.5px}
+.tblnav a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:2px}
+.tblnav a:hover{border-bottom-color:var(--accent)}
+table.fc2 td.l1{padding-left:28px} table.fc2 td.l2{padding-left:44px}
+[id^="tbl-"]{scroll-margin-top:64px}
 .errbox{background:var(--bad-bg);color:var(--bad);border-radius:6px;padding:10px 12px;font-size:13px;margin-bottom:16px}
 footer{font-size:12px;color:var(--faint)}
 footer .wrap{padding-block:0 32px}
@@ -183,7 +190,7 @@ footer .wrap{padding-block:0 32px}
   <div>
     <p class="eyebrow">Big Data &amp; AI</p>
     <h1>BBVA Research Monitor Macro España</h1>
-    <p class="lede">Actividad, empleo, precios, cuentas públicas, sector exterior y condiciones financieras de la economía española, con las series oficiales del INE, el Banco de España y el Ministerio de Economía.</p>
+    <p class="lede">Actividad, empleo, precios, cuentas públicas, sector exterior y condiciones financieras de la economía española, con las series oficiales del INE, el Banco de España, la Seguridad Social, el Ministerio de Trabajo, el Ministerio de Vivienda y el Ministerio de Economía.</p>
   </div>
   <div class="datactl">
     <div style="display:flex;gap:10px;align-items:center"><div class="seg" role="group" aria-label="Idioma / Language" id="langSeg"><button type="button" data-lang="es" aria-pressed="true">ES</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div><button type="button" class="btn" id="refreshBtn">Actualizar datos</button></div>
@@ -230,7 +237,7 @@ const MES = new Proxy([],{get:(_,i)=>(isEN()?MES_EN:MES_ES)[i]});
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const COLORS = ['--s1','--s2','--s3','--s4'];
 const fmtN = (v,d=1) => v==null||isNaN(v)?'–':v.toLocaleString(isEN()?'en-GB':'es-ES',{minimumFractionDigits:d,maximumFractionDigits:d,useGrouping:'always'});
-function decimals(s){ const u=s.unit; if(u==='pb'||u==='M€'||u==='miles') return 0; if(u==='índice') return 1; if(s.freq==='D'||['%'].includes(u)&&s.block==='financiero') return 2; return 1; }
+function decimals(s){ const u=s.unit; if(u==='miles'){ const L=s.data[s.data.length-1]; return L&&Math.abs(L[1])<100?1:0; } if(u==='pb'||u==='M€'||u==='€/m²') return 0; if(u==='índice') return 1; if(s.freq==='D'||['%'].includes(u)&&s.block==='financiero') return 2; return 1; }
 function fmtDate(d,freq){ const y=d.slice(0,4), m=+d.slice(5,7);
   if(freq==='Q') return (isEN()?'Q':'T')+((m-1)/3+1)+' '+y; if(freq==='D') return (+d.slice(8,10))+' '+MES[m-1]+' '+y; if(freq==='A') return y; return MES[m-1]+' '+y; }
 function unitLabel(u){ return {'% a/a':'%','% PIB':'% PIB','pp':'pp','pb':'pb','M€':'M€','miles':'miles','índice':'','saldo':'','%':'%'}[u] ?? u; }
@@ -353,9 +360,9 @@ const FIGS = {
   ],
   empleo: [
     {t:'Tasa de paro (EPA)', sub:'% de la población activa, datos originales', lines:[{id:'paro_epa',name:'Tasa de paro',color:'--s1'}]},
-    {t:'Ocupados (EPA)', sub:'% a/a', bars:[{id:'ocup_epa_yoy',name:'Ocupados',color:'--s3'}]},
-    {t:'Afiliados a la Seguridad Social', sub:'Miles, media mensual corregida de estacionalidad y calendario', lines:[{id:'afil_sa',name:'Afiliados CVEC',color:'--s1'}]},
-    {t:'Paro registrado', sub:'Miles, CVEC', lines:[{id:'paro_reg',name:'Paro registrado CVEC',color:'--s2'}]},
+    {t:'Empleo: EPA y afiliación', sub:'% a/a. Ocupados EPA (barras) y afiliados medios a la Seguridad Social, media trimestral (línea)', bars:[{id:'ocup_epa_yoy',name:'Ocupados EPA',color:'--qbar'}], lines:[{id:'afil_q_yoy',name:'Afiliados Seguridad Social',short:'Afiliados',color:'--s1'}], zero:true},
+    {t:'Afiliados a la Seguridad Social', sub:'Miles, media mensual desestacionalizada (Seguridad Social)', lines:[{id:'afil_sa',name:'Afiliados desestacionalizados',color:'--s1'}]},
+    {t:'Paro registrado', sub:'Miles, datos originales (SEPE)', lines:[{id:'paro_reg',name:'Paro registrado',color:'--s2'}]},
     {t:'Afiliación y paro registrado', sub:'% a/a, series originales', wide:true, lines:[{id:'afil_yoy',name:'Afiliados',color:'--s1'},{id:'paro_reg_yoy',name:'Paro registrado',color:'--s2'}], endLabels:true, zero:true},
   ],
   precios: [
@@ -423,7 +430,7 @@ function kpiTile([id,pol,tab]){ const s=S()[id]; if(!s) return ''; const L=lates
 
 const SUMMARY=[
  ['Actividad',['pib_qoq','pib_yoy','ch_yoy','fbcf_yoy','x_yoy','ipi_yoy','icm_yoy','isa_ser','esi','conf_cons','turistas']],
- ['Mercado laboral',['paro_epa','ocup_epa','ocup_epa_yoy','afil_sa','afil_yoy','paro_reg','paro_reg_yoy']],
+ ['Mercado laboral',['paro_epa','ocup_epa','ocup_epa_yoy','afil_sa','afil_yoy','afil_q_yoy','paro_reg','paro_reg_yoy']],
  ['Precios',['ipc','ipc_sub','ipca','ipc_ene','ipc_ser','dif_uem','ipv']],
  ['Vivienda',['ipv','viv_tasado','viv_tasado_yoy','viv_compraventas','viv_compraventas_yoy','viv_visados','viv_iniciadas','viv_coste','viv_credito']],
  ['Sector público',['deuda','deficit_4q','deficit_m']],
@@ -462,14 +469,14 @@ function viewPrevisiones(){
    <p class="note" style="margin-top:12px">${isEN()?`Forecasts from <a href="${esc(F.link)}" target="_blank" rel="noopener">${esc(toEN(F.source))}</a>. To update, edit <code>forecasts.json</code> in the repository.`:`Previsiones de <a href="${esc(F.link)}" target="_blank" rel="noopener">${esc(F.source)}</a>. Para actualizar, edita <code>forecasts.json</code> en el repositorio.`}</p>`;
 }
 
-function autoSub(s){ const adj=/CVEC|ajustados de estacionalidad|corregido de temperatura/i.test((s.label||'')+' '+(s.original_name||''))||/\.d$/.test(s.code||'');
+function autoSub(s){ const adj=/CVEC|ajustados de estacionalidad|desestacionaliz|corregido de temperatura/i.test((s.label||'')+' '+(s.original_name||''))||/\.d$/.test(s.code||'');
   if(isEN()){ const u={'% a/a':'% change on a year earlier','%':'%','% PIB':'% of GDP','pp':'percentage points','pb':'basis points','M€':'€ million','miles':'thousands','índice':'index','saldo':'balance of replies'}[s.unit]||s.unit;
     return [u, adj?'seasonally and calendar adjusted':null, {M:'monthly',Q:'quarterly',D:'daily'}[s.freq]].filter(Boolean).join(' · '); }
   const u={'% a/a':'% sobre un año antes','%':'%','% PIB':'% del PIB','pp':'puntos porcentuales','pb':'puntos básicos','M€':'millones de euros','miles':'miles','índice':'índice','saldo':'saldo de respuestas'}[s.unit]||s.unit;
   return [u, adj?'corregido de estacionalidad y calendario':null, {M:'mensual',Q:'trimestral',D:'diario'}[s.freq]].filter(Boolean).join(' · '); }
 function tblBlock(title, sub, inner, src, actions=''){
   return `<figure class="fig tblfig" style="margin:0"><div class="tblhead2"><div><h3>${title}</h3><div class="sub">${sub}</div></div>${actions}</div>${inner}<figcaption class="src">${src}</figcaption></figure>`; }
-const SRC_ALL='Fuente: BBVA Research a partir de INE, Banco de España y Ministerio de Economía (BDSICE)';
+const SRC_ALL='Fuente: BBVA Research a partir de INE, Banco de España, Seguridad Social, SEPE y Ministerio de Economía (BDSICE)';
 const GALLERY=[ // [series, polarity (+1 up is good, -1 up is bad), tab, extra line]
   ['pib_yoy',1,'actividad','pib_qoq'],['paro_epa',-1,'empleo'],['afil_yoy',1,'empleo'],
   ['ipc',-1,'precios','ipc_sub'],['deuda',-1,'publico'],['deficit_4q',1,'publico'],
@@ -482,8 +489,8 @@ function chg(id,pol){ const s=S()[id], L=latest(id), P=prevObs(id, s.freq==='D'?
   return `<span class="chip ${cls}" title="${vs}">${word}</span>`; }
 const POL={pib_yoy:1,pib_qoq:1,dn_yoy:1,ch_yoy:1,cp_yoy:0,fbcf_yoy:1,x_yoy:1,m_yoy:0,ap_dn:0,ap_de:0,vab_agr:1,vab_ind:1,vab_con:1,vab_ser:1,
   ipi_yoy:1,icm_yoy:1,isa_ind:1,isa_ser:1,isa_con:1,esi:1,conf_cons:1,cli:1,matric:1,elec:1,turistas:1,gasto_tur:1,hipotecas:1,
-  paro_epa:-1,ocup_epa:1,ocup_epa_yoy:1,afil_sa:1,afil_yoy:1,paro_reg:-1,paro_reg_yoy:-1,ipc:-1,ipc_sub:-1,ipc_ene:-1,ipc_ali:-1,ipc_ser:-1,ipca:-1,dif_uem:-1,ipv:0,
-  viv_visados:1,viv_visados_yoy:1,viv_iniciadas:1,viv_terminadas:1,viv_protegida:1,viv_compraventas:1,viv_compraventas_yoy:1,viv_tasado:0,viv_tasado_yoy:0,viv_coste:-1,viv_credito:0,
+  paro_epa:-1,ocup_epa:1,ocup_epa_yoy:1,afil_sa:1,afil_yoy:1,afil_q_yoy:1,paro_reg:-1,paro_reg_yoy:-1,ipc:-1,ipc_sub:-1,ipc_ene:-1,ipc_ali:-1,ipc_ser:-1,ipca:-1,dif_uem:-1,ipv:0,
+  viv_visados:1,viv_visados_yoy:1,viv_iniciadas:1,viv_terminadas:1,viv_protegida:1,viv_compraventas:1,viv_compraventas_yoy:1,viv_compr_reg:1,viv_compr_reg_yoy:1,viv_tasado:0,viv_tasado_yoy:0,viv_coste:-1,viv_credito:0,
   deuda:-1,deficit_4q:1,deficit_m:1,cc_pib:1,bys_pib:1,tur_ing_12m:1,bono_es:-1,bono_de:0,prima:-1,bce_dfr:0,euribor12:0,tipo_viv:-1,credito_osr:0,depositos_osr:0};
 const useBars=(id,s)=>s.freq==='Q'&&!['paro_epa','deuda','ocup_epa'].includes(id);
 function ovCard(id,i,attr,extra){ const s=S()[id]; if(!s) return ''; const Lx=latest(id), d=decimals(s), u=unitLabel(s.unit), pol=POL[id]??0;
@@ -523,28 +530,60 @@ function viewBlock(key){
 }
 let ro=null, roT=null; function observe(fn){ if(ro) ro.disconnect(); ro=new ResizeObserver(()=>{ const stale=[...panel.querySelectorAll('.chart')].some(h=>{ const sv=h.querySelector('svg'); return sv && Math.abs(+sv.getAttribute('viewBox').split(' ')[2]-Math.max(280,h.clientWidth))>4; }); if(!stale) return; clearTimeout(roT); roT=setTimeout(fn,100);}); panel.querySelectorAll('.chart').forEach(h=>ro.observe(h)); }
 
-function periodTable(freq,n,ids){ const dates=[...new Set(ids.flatMap(id=>(S()[id]?.data||[]).map(o=>o[0])))].sort().slice(-n);
-  let h=`<div class="tblwrap"><table><thead><tr><th scope="col">Indicador</th>${dates.map(d=>`<th scope="col">${fmtDate(d,freq)}</th>`).join('')}</tr></thead><tbody>`;
-  const rows=[]; ids.forEach(id=>{ const s=S()[id]; if(!s) return; const m=Object.fromEntries(s.data.map(o=>[o[0],o])); const d=decimals(s);
-    h+=`<tr><td>${esc(s.label)}<span class="u">${esc(s.unit)}</span></td>${dates.map(x=>`<td>${m[x]?fmtN(m[x][1],d)+(m[x][2]?'*':''):'–'}</td>`).join('')}</tr>`;
-    rows.push([L10(s.label)+' ('+L10(s.unit)+')',...dates.map(x=>m[x]?String(m[x][1]).replace('.',','):'')]); });
-  return {html:h+'</tbody></table></div>', csv:[[L10('Indicador'),...dates.map(d=>fmtDate(d,freq))],...rows].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(';')).join('\n')}; }
+/* table specs: 'id' | ['id',level] | '#Group label' */
+const specIds=spec=>spec.filter(x=>!(typeof x==='string'&&x[0]==='#')).map(x=>Array.isArray(x)?x[0]:x);
+const csvOf=rows=>rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(';')).join('\n');
+const nCSV=v=>v==null?'':String(v).replace('.',',');
+function periodTable(freq,n,spec,nAnn=0,nQ=0){ const ids=specIds(spec).filter(id=>S()[id]); const dates=[...new Set(ids.filter(id=>S()[id].freq===freq).flatMap(id=>S()[id].data.map(o=>o[0])))].sort().slice(-n);
+  const years=nAnn?[...new Set(ids.flatMap(id=>Object.keys(S()[id].annual||{})))].sort().slice(-nAnn):[];
+  const qOf=id=>S()[id].freq==='Q'?Object.fromEntries(S()[id].data.map(o=>[o[0],o[1]])):(S()[id].quarterly||{});
+  const quarters=nQ?[...new Set(ids.flatMap(id=>Object.keys(qOf(id))))].sort().slice(-nQ):[];
+  const ncol=years.length+quarters.length+dates.length+1;
+  const T=(es,en)=>isEN()?en:es, last=(arr,i)=>i===arr.length-1?' blklast':'';
+  const head=(years.length||quarters.length)?`<tr class="hgrp"><th></th>${years.length?`<th colspan="${years.length}" class="blklast">${T('Anual','Annual')}</th>`:''}${quarters.length?`<th colspan="${quarters.length}" class="blklast">${T('Trimestral','Quarterly')}</th>`:''}<th colspan="${dates.length}">${freq==='Q'?T('Trimestral','Quarterly'):T('Mensual','Monthly')}</th></tr>`:'';
+  let h=`<div class="tblwrap"><table class="fc2"><thead>${head}<tr><th scope="col">Indicador</th>${years.map((y,i)=>`<th scope="col" class="${last(years,i)}">${y}</th>`).join('')}${quarters.map((q,i)=>`<th scope="col" class="${last(quarters,i)}">${fmtDate(q,'Q')}</th>`).join('')}${dates.map(d=>`<th scope="col">${fmtDate(d,freq)}</th>`).join('')}</tr></thead><tbody>`;
+  const rows=[[L10('Indicador'),...years,...quarters.map(q=>fmtDate(q,'Q')),...dates.map(d=>fmtDate(d,freq))]];
+  spec.forEach(x=>{ if(typeof x==='string'&&x[0]==='#'){ h+=`<tr class="grp"><td colspan="${ncol}">${esc(x.slice(1))}</td></tr>`; return; }
+    const [id,lv]=Array.isArray(x)?x:[x,0]; const s=S()[id]; if(!s) return; const m=s.freq===freq?Object.fromEntries(s.data.map(o=>[o[0],o])):{}; const d=decimals(s); const A=s.annual||{}, Qd=qOf(id);
+    h+=`<tr><td class="${lv===1?'l1':lv===2?'l2':''}">${esc(s.label)}<span class="u">${esc(s.unit)}</span></td>${years.map((y,i)=>`<td class="${last(years,i)}">${A[y]!=null?fmtN(A[y],d):'–'}</td>`).join('')}${quarters.map((q,i)=>`<td class="${last(quarters,i)}">${Qd[q]!=null?fmtN(Qd[q],d):'–'}</td>`).join('')}${dates.map(x=>`<td>${m[x]?fmtN(m[x][1],d)+(m[x][2]?'*':''):'–'}</td>`).join('')}</tr>`;
+    rows.push([L10(s.label)+' ('+L10(s.unit)+')',...years.map(y=>nCSV(A[y])),...quarters.map(q=>nCSV(Qd[q])),...dates.map(x=>m[x]?nCSV(m[x][1]):'')]); });
+  return {html:h+'</tbody></table></div>', csv:csvOf(rows)}; }
+function latestTable(spec){ let h=`<div class="tblwrap"><table class="fc2"><thead><tr><th scope="col">Indicador</th><th scope="col">Último</th><th scope="col">Periodo</th><th scope="col">Anterior</th><th scope="col">Hace un año</th><th scope="col" style="text-align:left">Fuente</th></tr></thead><tbody>`;
+  const rows=[[L10('Indicador'),L10('Último'),L10('Periodo'),L10('Anterior'),L10('Hace un año'),L10('Fuente')]];
+  spec.forEach(x=>{ if(typeof x==='string'&&x[0]==='#'){ h+=`<tr class="grp"><td colspan="6">${esc(x.slice(1))}</td></tr>`; return; }
+    const [id,lv]=Array.isArray(x)?x:[x,0]; const s=S()[id]; if(!s) return; const L=latest(id), P=prevObs(id,s.freq==='D'?5:1), Y=yearAgo(id), d=decimals(s);
+    h+=`<tr><td class="${lv===1?'l1':''}">${esc(s.label)}<span class="u">${esc(s.unit)}</span></td><td><b>${fmtN(L[1],d)}</b></td><td>${fmtDate(L[0],s.freq)}</td><td>${P?fmtN(P[1],d):'–'}</td><td>${Y?fmtN(Y[1],d):'–'}</td><td class="src">${esc(s.source)}</td></tr>`;
+    rows.push([L10(s.label)+' ('+L10(s.unit)+')',nCSV(L[1]),fmtDate(L[0],s.freq),P?nCSV(P[1]):'',Y?nCSV(Y[1]):'',L10(s.source)]); });
+  return {html:h+'</tbody></table></div>', csv:csvOf(rows)}; }
+const TABLES=[
+  {k:'demanda',t:'PIB: demanda',sub:'% a/a salvo indicación · índices de volumen encadenados, corregidos de estacionalidad y calendario · últimos 3 años y 8 trimestres · anual: crecimiento de la media anual; aportaciones, media de los trimestres',src:'Fuente: BBVA Research a partir de INE',
+   make:()=>periodTable('Q',8,['pib_qoq','pib_yoy','#Demanda nacional','dn_yoy',['ch_yoy',1],['cp_yoy',1],['fbcf_yoy',1],'#Sector exterior','x_yoy','m_yoy','#Aportaciones al crecimiento del PIB','ap_dn','ap_de'],3)},
+  {k:'oferta',t:'PIB: oferta',sub:'Valor añadido bruto por ramas, % a/a · volumen, corregido de estacionalidad y calendario · últimos 3 años y 8 trimestres · anual: crecimiento de la media anual',src:'Fuente: BBVA Research a partir de INE',
+   make:()=>periodTable('Q',8,['pib_yoy','#Valor añadido bruto',['vab_agr',1],['vab_ind',1],['vab_con',1],['vab_ser',1]],3)},
+  {k:'vivienda',t:'Indicadores de vivienda',sub:'3 años, 4 trimestres y 3 últimos meses · las series trimestrales (precios y crédito) no tienen columnas mensuales · años y trimestres: sumas de 12 meses, último mes del periodo; tasas, sobre la media del periodo; índices y tipos, media',src:'Fuente: BBVA Research a partir de INE, Ministerio de Vivienda y Agenda Urbana, Consejo General del Notariado y Banco de España',
+   make:()=>periodTable('M',3,['#Precios','ipv','viv_tasado','viv_tasado_yoy','#Demanda','viv_compraventas','viv_compraventas_yoy','viv_compr_reg','viv_compr_reg_yoy','hipotecas','#Oferta','viv_visados','viv_visados_yoy','viv_iniciadas','viv_terminadas','viv_protegida','viv_coste','#Financiación','tipo_viv','viv_credito'],3,4)},
+  {k:'coyuntura',t:'Indicadores coyunturales',sub:'% a/a salvo indicación · 3 años, 4 trimestres y 3 últimos meses · * dato de avance · años y trimestres: tasas calculadas sobre la media del periodo o media de los meses (índices, saldos y niveles)',src:'Fuente: BBVA Research a partir de INE, Seguridad Social, SEPE, Ministerio de Economía (BDSICE), Comisión Europea y OCDE',
+   make:()=>periodTable('M',3,['#Actividad','ipi_yoy','icm_yoy','isa_ind','isa_ser','isa_con','elec','matric','#Confianza','esi','conf_cons','cli','#Turismo','turistas','gasto_tur','#Mercado laboral','afil_sa','afil_yoy','paro_reg','paro_reg_yoy'],3,4)},
+  {k:'precios',t:'Precios, sector exterior y financiación',sub:'3 años, 4 trimestres y 3 últimos meses · * dato de avance · años y trimestres: media de los meses; sumas de 12 meses y saldos acumulados, último mes del periodo',src:'Fuente: BBVA Research a partir de INE, Banco de España y Ministerio de Economía (BDSICE)',
+   make:()=>periodTable('M',3,['#Precios','ipc',['ipc_sub',1],['ipc_ene',1],['ipc_ali',1],['ipc_ser',1],'ipca','dif_uem','#Sector público y exterior','deficit_m','cc_pib','bys_pib','tur_ing_12m','#Crédito y tipos','euribor12','credito_osr','depositos_osr'],3,4)},
+  {k:'trimestral',t:'Mercado laboral y sector público',sub:'Últimos 3 años y 8 trimestres · anual: media del año (paro, ocupados), crecimiento de la media anual (tasas) y cuarto trimestre (deuda y déficit)',src:'Fuente: BBVA Research a partir de INE, Seguridad Social y Banco de España',
+   make:()=>periodTable('Q',8,['#Mercado laboral','paro_epa','ocup_epa','ocup_epa_yoy','afil_q_yoy','#Sector público','deuda','deficit_4q'],3)},
+];
+function marketTable(){ const mk=(k)=>{ const s=S()[k]; const L=latest(k); const ago=(days)=>lastBefore(s.data,new Date(ts(L[0])-days*864e5).toISOString().slice(0,10)); return [k,L,ago(7),ago(30),ago(365)]; };
+  let h=`<div class="tblwrap"><table class="fc2"><thead><tr><th scope="col">Indicador</th><th scope="col">Último</th><th scope="col">Fecha</th><th scope="col">Hace 1 semana</th><th scope="col">Hace 1 mes</th><th scope="col">Hace 1 año</th></tr></thead><tbody>`;
+  const rows=[[L10('Indicador'),L10('Último'),L10('Fecha'),L10('Hace 1 semana'),L10('Hace 1 mes'),L10('Hace 1 año')]];
+  ['bce_dfr','bono_es','bono_de','prima'].map(mk).forEach(([k,L,a,b,c])=>{ const s=S()[k], d=decimals(s); h+=`<tr><td>${esc(s.label)}<span class="u">${esc(s.unit)}</span></td><td><b>${fmtN(L[1],d)}</b></td><td>${fmtDate(L[0],'D')}</td>${[a,b,c].map(o=>`<td>${o?fmtN(o[1],d):'–'}</td>`).join('')}</tr>`; rows.push([L10(s.label),nCSV(L[1]),L[0],nCSV(a?.[1]),nCSV(b?.[1]),nCSV(c?.[1])]); });
+  return {html:h+'</tbody></table></div>', csv:csvOf(rows)}; }
 function viewTablas(){
-  const Q=periodTable('Q',8,['pib_qoq','pib_yoy','dn_yoy','ch_yoy','cp_yoy','fbcf_yoy','x_yoy','m_yoy','ap_dn','ap_de','vab_agr','vab_ind','vab_con','vab_ser','paro_epa','ocup_epa','ocup_epa_yoy','ipv','viv_tasado','viv_tasado_yoy','viv_credito','deuda','deficit_4q']);
-  const M=periodTable('M',12,['ipi_yoy','icm_yoy','isa_ind','isa_ser','isa_con','esi','conf_cons','cli','turistas','gasto_tur','matric','elec','afil_sa','afil_yoy','paro_reg','paro_reg_yoy','ipc','ipc_sub','ipca','ipc_ene','ipc_ali','ipc_ser','dif_uem','viv_compraventas','viv_visados','viv_iniciadas','viv_terminadas','viv_coste','deficit_m','cc_pib','bys_pib','tur_ing_12m','euribor12','tipo_viv','credito_osr','depositos_osr','hipotecas']);
-  const mk=(k)=>{ const s=S()[k]; const L=latest(k); const ago=(days)=>lastBefore(s.data,new Date(ts(L[0])-days*864e5).toISOString().slice(0,10)); return [k,L,ago(7),ago(30),ago(365)]; };
-  const D=['bce_dfr','bono_es','bono_de','prima'].map(mk);
-  let dh=`<div class="tblwrap"><table><thead><tr><th scope="col">Indicador</th><th scope="col">Último</th><th scope="col">Fecha</th><th scope="col">Hace 1 semana</th><th scope="col">Hace 1 mes</th><th scope="col">Hace 1 año</th></tr></thead><tbody>`;
-  const dcsv=[['Indicador','Último','Fecha','Hace 1 semana','Hace 1 mes','Hace 1 año']];
-  D.forEach(([k,L,a,b,c])=>{ const s=S()[k], d=decimals(s); dh+=`<tr><td>${esc(s.label)}<span class="u">${esc(s.unit)}</span></td><td><b>${fmtN(L[1],d)}</b></td><td>${fmtDate(L[0],'D')}</td>${[a,b,c].map(o=>`<td>${o?fmtN(o[1],d):'–'}</td>`).join('')}</tr>`; dcsv.push([L10(s.label),L[1],L[0],a?.[1]??'',b?.[1]??'',c?.[1]??'']); });
-  dh+='</tbody></table></div>';
-  const tables={q:Q.csv,m:M.csv,d:dcsv.map(r=>r.map(c=>`"${String(c).replace('.',',')}"`).join(';')).join('\n')};
-  panel.innerHTML=`<div class="sechead"><h2>Tablas</h2><span class="note">Últimas observaciones por frecuencia. * dato de avance. Copiar CSV pega en Excel con separador punto y coma.</span></div>
-   <div class="stack">${tblBlock('Indicadores trimestrales','Últimos 8 trimestres · * dato de avance',Q.html,SRC_ALL,'<span><button class="btn ghost" type="button" data-copy="q">Copiar CSV</button><span class="copyok" data-ok="q"></span></span>')}
-   ${tblBlock('Indicadores mensuales','Últimos 12 meses · * dato de avance',M.html,SRC_ALL,'<span><button class="btn ghost" type="button" data-copy="m">Copiar CSV</button><span class="copyok" data-ok="m"></span></span>')}
-   ${tblBlock('Indicadores de mercado','Datos diarios: último dato y hace 1 semana, 1 mes y 1 año',dh,'Fuente: BBVA Research a partir de Banco de España y Ministerio de Economía (BDSICE)','<span><button class="btn ghost" type="button" data-copy="d">Copiar CSV</button><span class="copyok" data-ok="d"></span></span>')}</div>`;
+  const all=TABLES.concat([{k:'mercados',t:'Mercados financieros',sub:'Datos diarios: último dato y hace 1 semana, 1 mes y 1 año',src:'Fuente: BBVA Research a partir de Banco de España y Ministerio de Economía (BDSICE)',make:marketTable}]);
+  const built=all.map(T=>({...T,...T.make()})); const csv=Object.fromEntries(built.map(T=>[T.k,T.csv]));
+  const btn=k=>`<span><button class="btn ghost" type="button" data-copy="${k}">Copiar CSV</button><span class="copyok" data-ok="${k}"></span></span>`;
+  panel.innerHTML=`<div class="sechead"><h2>Tablas</h2><span class="note">Copiar CSV pega en Excel con separador punto y coma.</span></div>
+   <nav class="tblnav" aria-label="Tablas">${built.map(T=>`<a href="#tbl-${T.k}" data-jump="${T.k}">${esc(T.t)}</a>`).join('')}</nav>
+   <div class="stack">${built.map(T=>`<div id="tbl-${T.k}">${tblBlock(esc(T.t),esc(T.sub),T.html,esc(T.src),btn(T.k))}</div>`).join('')}</div>`;
+  panel.querySelectorAll('[data-jump]').forEach(a=>a.addEventListener('click',ev=>{ ev.preventDefault(); document.getElementById('tbl-'+a.dataset.jump).scrollIntoView({behavior:'smooth',block:'start'}); }));
   panel.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{ const k=b.dataset.copy, ok=panel.querySelector(`[data-ok="${k}"]`);
-    try{ await navigator.clipboard.writeText(tables[k]); ok.textContent=L10('Copiado'); }catch(e){ const ta=document.createElement('textarea'); ta.value=tables[k]; ta.style.width='100%'; ta.rows=6; b.closest('.tblfig').querySelector('.tblhead2').after(ta); ta.select(); ok.textContent=L10('Selecciona y copia el texto'); } setTimeout(()=>ok.textContent='',2500); }));
+    try{ await navigator.clipboard.writeText(csv[k]); ok.textContent=L10('Copiado'); }catch(e){ const ta=document.createElement('textarea'); ta.value=csv[k]; ta.style.width='100%'; ta.rows=6; b.closest('.tblfig').querySelector('.tblhead2').after(ta); ta.select(); ok.textContent=L10('Selecciona y copia el texto'); } setTimeout(()=>ok.textContent='',2500); }));
 }
 function viewFuentes(){
   const m=DATA.meta; const ids=Object.keys(S()).filter(k=>S()[k].block!=='aux');
@@ -556,12 +595,12 @@ function viewFuentes(){
   panel.innerHTML=`<div class="sechead"><h2>Fuentes y método</h2></div>
   ${m.errors&&m.errors.length?`<div class="errbox">${isEN()?'The last update could not download':'La última actualización no pudo descargar'}: ${esc(m.errors.join('; '))}. ${isEN()?'Earlier data are shown for those series.':'Se muestran los datos anteriores de esas series.'}</div>`:''}
 ${isEN()?`  <div class="prose">
-   <p>The data are downloaded from three public sources with no access key: the Tempus3 API of <a href="https://www.ine.es/dyngs/DataLab/manual.html?cid=45" target="_blank" rel="noopener">INE</a>, the CSV files of the <a href="https://www.bde.es/webbe/es/estadisticas/recursos/descargas-completas.html" target="_blank" rel="noopener">Bank of Spain</a> and the full download of the <a href="https://portal.mineco.gob.es/es-es/economiayempresa/EconomiaInformesMacro/Paginas/Dbdsice.aspx" target="_blank" rel="noopener">BDSICE</a> database of the Ministry of Economy, Trade and Business, which also carries series from IGAE, TGSS, SEPE, the European Commission, the OECD, REE and ANFAC.</p>
+   <p>The data are downloaded from three public sources with no access key: the Tempus3 API of <a href="https://www.ine.es/dyngs/DataLab/manual.html?cid=45" target="_blank" rel="noopener">INE</a>, the CSV files of the <a href="https://www.bde.es/webbe/es/estadisticas/recursos/descargas-completas.html" target="_blank" rel="noopener">Bank of Spain</a> and the full download of the <a href="https://portal.mineco.gob.es/es-es/economiayempresa/EconomiaInformesMacro/Paginas/Dbdsice.aspx" target="_blank" rel="noopener">BDSICE</a> database of the Ministry of Economy, Trade and Business, which also carries series from IGAE, the European Commission, the OECD, REE, ANFAC, the Notaries and the Ministry of Housing. Social Security registrations and registered unemployment are downloaded directly from their primary sources: the average-affiliates PX tables of the <a href="https://w6.seg-social.es/PXWeb/pxweb/es/" target="_blank" rel="noopener">Social Security</a> and the registered-unemployment files of <a href="https://www.sepe.es/HomeSepe/que-es-el-sepe/estadisticas/datos-avance/paro.html" target="_blank" rel="noopener">SEPE (Ministry of Labour)</a>, updated on their release day.</p>
    <p>Nothing is estimated. The only transformations are year-on-year rates computed from levels, 4-quarter or 12-month rolling sums and ratios to nominal GDP, all shown in the table. The IGAE quarterly balance is published cumulated within the year and is de-cumulated before summing 4 quarters. Figures marked as flash are INE flash estimates.</p>
    <p>Updates: the <code>update_data.py</code> script rebuilds <code>data.json</code>. On GitHub, the <code>update-data.yml</code> action runs it twice every working day (around 9:15 and 16:15 Madrid time in winter, one hour later in summer), rebuilds <code>index.html</code> with the embedded data and can be launched by hand from the Actions tab. The <b>Refresh data</b> button re-reads <code>data.json</code>, and the page also checks it every 15 minutes.</p>
    <p class="stamp">Data updated: ${esc(m.refreshed)} · ${m.n_series} series · source: ${esc(SOURCE_NOTE==='data.json de este sitio'?'data.json on this site':'data embedded in the page')}</p>
 `:`  <div class="prose">
-   <p>Los datos se descargan de tres fuentes públicas sin clave de acceso: la API Tempus3 del <a href="https://www.ine.es/dyngs/DataLab/manual.html?cid=45" target="_blank" rel="noopener">INE</a>, los ficheros CSV del <a href="https://www.bde.es/webbe/es/estadisticas/recursos/descargas-completas.html" target="_blank" rel="noopener">Banco de España</a> y la descarga completa de la base <a href="https://portal.mineco.gob.es/es-es/economiayempresa/EconomiaInformesMacro/Paginas/Dbdsice.aspx" target="_blank" rel="noopener">BDSICE</a> del Ministerio de Economía, Comercio y Empresa, que incluye además series de la IGAE, la TGSS, el SEPE, la Comisión Europea, la OCDE, REE y ANFAC.</p>
+   <p>Los datos se descargan de tres fuentes públicas sin clave de acceso: la API Tempus3 del <a href="https://www.ine.es/dyngs/DataLab/manual.html?cid=45" target="_blank" rel="noopener">INE</a>, los ficheros CSV del <a href="https://www.bde.es/webbe/es/estadisticas/recursos/descargas-completas.html" target="_blank" rel="noopener">Banco de España</a> y la descarga completa de la base <a href="https://portal.mineco.gob.es/es-es/economiayempresa/EconomiaInformesMacro/Paginas/Dbdsice.aspx" target="_blank" rel="noopener">BDSICE</a> del Ministerio de Economía, Comercio y Empresa, que incluye además series de la IGAE, la Comisión Europea, la OCDE, REE, ANFAC, el Notariado y el Ministerio de Vivienda. La afiliación y el paro registrado se descargan directamente de sus fuentes primarias: las tablas PX de afiliados medios de la <a href="https://w6.seg-social.es/PXWeb/pxweb/es/" target="_blank" rel="noopener">Seguridad Social</a> y los ficheros de paro registrado del <a href="https://www.sepe.es/HomeSepe/que-es-el-sepe/estadisticas/datos-avance/paro.html" target="_blank" rel="noopener">SEPE (Ministerio de Trabajo)</a>, que se actualizan el día de su publicación.</p>
    <p>No se estima nada. Las únicas transformaciones son tasas interanuales calculadas desde niveles, sumas móviles de 4 trimestres o 12 meses y cocientes sobre el PIB nominal, indicadas en la tabla. El saldo trimestral de la IGAE se publica acumulado en el año y se desacumula antes de sumar 4 trimestres. Los datos marcados como avance son el indicador adelantado del INE.</p>
    <p>Actualización: el script <code>update_data.py</code> regenera <code>data.json</code>. En GitHub, la acción <code>update-data.yml</code> lo ejecuta dos veces cada día laborable (hacia las 9:15 y las 16:15 en invierno y una hora más tarde en verano, hora de Madrid), reconstruye <code>index.html</code> con los datos incrustados y se puede lanzar a mano desde la pestaña Actions. El botón <b>Actualizar datos</b> relee <code>data.json</code> y la página también lo comprueba cada 15 minutos.</p>
    <p class="stamp">Datos actualizados: ${esc(m.refreshed)} · ${m.n_series} series · origen: ${esc(SOURCE_NOTE)}</p>
@@ -766,7 +805,7 @@ function go(k){ state.tab=k; try{ history.replaceState(null,'','#'+k); }catch(e)
 function render(){ renderTabs(); panel.setAttribute('aria-labelledby','tab-'+state.tab); if(ro){ro.disconnect();ro=null;}
   if(state.tab==='resumen') viewResumen(); else if(state.tab==='explorador') viewExplorer(); else if(state.tab==='tablas') viewTablas(); else if(state.tab==='previsiones') viewPrevisiones(); else if(state.tab==='fuentes') viewFuentes(); else viewBlock(state.tab);
   document.getElementById('stamp').textContent='Datos: '+DATA.meta.refreshed+' · '+DATA.meta.n_series+' series';
-  document.getElementById('foot').innerHTML=`Fuentes: INE, Banco de España y Ministerio de Economía, Comercio y Empresa (BDSICE). Elaboración: BBVA Research. Datos a ${esc(DATA.meta.refreshed)}.`;
+  document.getElementById('foot').innerHTML=`Fuentes: INE, Banco de España, Seguridad Social, SEPE (Ministerio de Trabajo), Ministerio de Vivienda y Ministerio de Economía, Comercio y Empresa (BDSICE). Elaboración: BBVA Research. Datos a ${esc(DATA.meta.refreshed)}.`;
   document.documentElement.lang=LANG; document.title=isEN()?'BBVA Research Spain Macro Monitor':'BBVA Research Monitor Macro España';
   document.querySelectorAll('#langSeg [data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===LANG)));
   tr(document.body); }

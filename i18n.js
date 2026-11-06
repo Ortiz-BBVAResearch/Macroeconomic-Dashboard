@@ -1,6 +1,33 @@
 /* English translations for the Spanish UI. Edit freely: keys are the Spanish text exactly as shown.
    Lookup order for each text node: exact match -> split on " · " -> "label (unit)" -> phrase rules (RULES). */
 const EN = {
+  "3 años, 4 trimestres y 3 últimos meses · las series trimestrales (precios y crédito) no tienen columnas mensuales · años y trimestres: sumas de 12 meses, último mes del periodo; tasas, sobre la media del periodo; índices y tipos, media": "3 years, 4 quarters and last 3 months · quarterly series (prices and credit) have no monthly columns · years and quarters: 12-month sums, last month of the period; rates, on the period average; indices and interest rates, average",
+  "% a/a salvo indicación · 3 años, 4 trimestres y 3 últimos meses · * dato de avance · años y trimestres: tasas calculadas sobre la media del periodo o media de los meses (índices, saldos y niveles)": "% y/y unless stated · 3 years, 4 quarters and last 3 months · * flash estimate · years and quarters: rates computed on the period average, or average of the months (indices, balances and levels)",
+  "3 años, 4 trimestres y 3 últimos meses · * dato de avance · años y trimestres: media de los meses; sumas de 12 meses y saldos acumulados, último mes del periodo": "3 years, 4 quarters and last 3 months · * flash estimate · years and quarters: average of the months; 12-month sums and year-to-date balances, last month of the period",
+  "% a/a salvo indicación · índices de volumen encadenados, corregidos de estacionalidad y calendario · últimos 3 años y 8 trimestres · anual: crecimiento de la media anual; aportaciones, media de los trimestres": "% y/y unless stated · chain-linked volumes, seasonally and calendar adjusted · last 3 years and 8 quarters · annual: growth of the annual average; contributions, average of the quarters",
+  "Valor añadido bruto por ramas, % a/a · volumen, corregido de estacionalidad y calendario · últimos 3 años y 8 trimestres · anual: crecimiento de la media anual": "Gross value added by sector, % y/y · volume, seasonally and calendar adjusted · last 3 years and 8 quarters · annual: growth of the annual average",
+  "Últimos 3 años y 8 trimestres · anual: media del año (paro, ocupados), crecimiento de la media anual (tasas) y cuarto trimestre (deuda y déficit)": "Last 3 years and 8 quarters · annual: year average (unemployment, employment), growth of the annual average (rates) and fourth quarter (debt and deficit)",
+  // tables tab
+  "PIB: demanda": "GDP: demand", "PIB: oferta": "GDP: supply", "Indicadores de vivienda": "Housing indicators", "Indicadores coyunturales": "Short-term indicators",
+  "Precios, sector exterior y financiación": "Prices, external sector and financing", "Mercado laboral y sector público": "Labour market and public sector", "Mercados financieros": "Financial markets",
+  "% a/a salvo indicación · índices de volumen encadenados, corregidos de estacionalidad y calendario · últimos 8 trimestres": "% y/y unless stated · chain-linked volumes, seasonally and calendar adjusted · last 8 quarters",
+  "Valor añadido bruto por ramas, % a/a · volumen, corregido de estacionalidad y calendario · últimos 8 trimestres": "Gross value added by sector, % y/y · volume, seasonally and calendar adjusted · last 8 quarters",
+  "Último dato, dato anterior y hace un año · frecuencias mensual y trimestral": "Latest, previous and a year earlier · monthly and quarterly frequencies",
+  "% a/a salvo indicación · últimos 12 meses · * dato de avance": "% y/y unless stated · last 12 months · * flash estimate", "Últimos 12 meses · * dato de avance": "Last 12 months · * flash estimate",
+  "Datos trimestrales · últimos 8 trimestres": "Quarterly data · last 8 quarters", "Copiar CSV pega en Excel con separador punto y coma.": "Copy CSV pastes into Excel with a semicolon separator.",
+  "Demanda nacional": "Domestic demand", "Sector exterior": "External sector", "Aportaciones al crecimiento del PIB": "Contributions to GDP growth", "Valor añadido bruto": "Gross value added",
+  "Precios": "Prices", "Demanda": "Demand", "Oferta": "Supply", "Financiación": "Financing", "Actividad": "Activity", "Confianza": "Confidence", "Turismo": "Tourism", "Mercado laboral": "Labour market",
+  "Sector público y exterior": "Public and external sector", "Crédito y tipos": "Credit and interest rates", "Sector público": "Public sector", "Tablas": "Tables",
+  "Fuente: BBVA Research a partir de INE, Ministerio de Vivienda y Agenda Urbana, Consejo General del Notariado y Banco de España": "Source: BBVA Research based on INE, Ministry of Housing and Urban Agenda, General Council of Notaries and Bank of Spain",
+  "Fuente: BBVA Research a partir de INE, Seguridad Social, SEPE, Ministerio de Economía (BDSICE), Comisión Europea y OCDE": "Source: BBVA Research based on INE, Social Security, SEPE, Ministry of Economy (BDSICE), European Commission and OECD",
+  "Fuente: BBVA Research a partir de INE, Banco de España y Ministerio de Economía (BDSICE)": "Source: BBVA Research based on INE, Bank of Spain and Ministry of Economy (BDSICE)",
+  "Fuente: BBVA Research a partir de INE, Seguridad Social y Banco de España": "Source: BBVA Research based on INE, Social Security and Bank of Spain",
+  "Empleo: EPA y afiliación": "Employment: LFS and Social Security registrations", "% a/a. Ocupados EPA (barras) y afiliados medios a la Seguridad Social, media trimestral (línea)": "% y/y. LFS employment (bars) and average Social Security registrations, quarterly average (line)", "Ocupados EPA": "LFS employment", "Afiliados Seguridad Social": "Social Security registrations", "Afiliados a la Seguridad Social (media trimestral)": "Social Security registrations (quarterly average)",
+  "Miles, media mensual desestacionalizada (Seguridad Social)": "Thousands, seasonally adjusted monthly average (Social Security)", "Afiliados desestacionalizados": "Seasonally adjusted registrations",
+  "Miles, datos originales (SEPE)": "Thousands, unadjusted (SEPE)", "Afiliados a la Seguridad Social (desestacionalizados)": "Social Security registrations (seasonally adjusted)",
+  "Seguridad Social": "Social Security", "SEPE (Ministerio de Trabajo)": "SEPE (Ministry of Labour)",
+  "Fuente: BBVA Research a partir de INE, Banco de España, Seguridad Social, SEPE y Ministerio de Economía (BDSICE)": "Source: BBVA Research based on INE, Bank of Spain, Social Security, SEPE and Ministry of Economy (BDSICE)",
+  "Actividad, empleo, precios, cuentas públicas, sector exterior y condiciones financieras de la economía española, con las series oficiales del INE, el Banco de España, la Seguridad Social, el Ministerio de Trabajo, el Ministerio de Vivienda y el Ministerio de Economía.": "Activity, employment, prices, public finances, external sector and financial conditions in the Spanish economy, from the official series of INE, the Bank of Spain, the Social Security, the Ministry of Labour, the Ministry of Housing and the Ministry of Economy.",
   // housing
   "Vivienda": "Housing", "Precio de la vivienda": "House prices", "IPV (INE)": "HPI (INE)", "Valor tasado": "Appraised value",
   "% a/a. Índice de precios de vivienda (INE) y valor tasado de la vivienda libre (Ministerio de Vivienda)": "% y/y. House price index (INE) and appraised value of free-market housing (Ministry of Housing)",
@@ -16,7 +43,7 @@ const EN = {
   "TEDR de nuevas operaciones y Euríbor a 12 meses, %": "NDER on new business and 12-month Euribor, %",
   "Visados de obra nueva: viviendas (12 meses)": "New-build permits: dwellings (12 months)", "Viviendas iniciadas (12 meses)": "Housing starts (12 months)",
   "Viviendas terminadas (12 meses)": "Housing completions (12 months)", "Vivienda protegida: calificaciones definitivas (12 meses)": "Social housing: final certifications (12 months)",
-  "Compraventa de viviendas (12 meses)": "Home sales (12 months)", "Crédito a hogares para adquisición de vivienda (saldo)": "Household credit for house purchase (stock)",
+  "Compraventa de viviendas (12 meses)": "Home sales (12 months)", "Compraventa de viviendas, notarios (12 meses)": "Home sales, notaries (12 months)", "Compraventa de viviendas inscritas, registros (12 meses)": "Home sales registered, land registries (12 months)", "INE (Estadística de Transmisiones de Derechos de la Propiedad, Registros de la Propiedad)": "INE (Property Transfer Statistics, Land Registries)", "Crédito a hogares para adquisición de vivienda (saldo)": "Household credit for house purchase (stock)",
   "Ministerio de Vivienda y Agenda Urbana (BDSICE)": "Ministry of Housing and Urban Agenda (BDSICE)", "Consejo General del Notariado (BDSICE)": "General Council of Notaries (BDSICE)",
   "BBVA Research Monitor Macro España": "BBVA Research Spain Macro Monitor", "Explorador de series temporales": "Time Series Explorer",
   "Stack": "Stack",
@@ -185,6 +212,7 @@ const EN = {
   "Banco de España; PIB INE": "Bank of Spain; GDP INE",
 };
 const RULES = [
+  [/^Fuentes: INE, Banco de España, Seguridad Social, SEPE \(Ministerio de Trabajo\), Ministerio de Vivienda y Ministerio de Economía, Comercio y Empresa \(BDSICE\)\. Elaboración: BBVA Research\. Datos a /, "Sources: INE, Bank of Spain, Social Security, SEPE (Ministry of Labour), Ministry of Housing and Ministry of Economy, Trade and Business (BDSICE). Prepared by BBVA Research. Data as of "], [/SEPE \(Ministerio de Trabajo\)/g, "SEPE (Ministry of Labour)"], [/Seguridad Social/g, "Social Security"],
   [/Ministerio de Vivienda y Agenda Urbana/g, "Ministry of Housing and Urban Agenda"], [/Consejo General del Notariado/g, "General Council of Notaries"], 
   [/^Fuentes: INE, Banco de España y Ministerio de Economía, Comercio y Empresa \(BDSICE\)\. Elaboración: BBVA Research\. Datos a /, "Sources: INE, Bank of Spain and Ministry of Economy, Trade and Business (BDSICE). Prepared by BBVA Research. Data as of "],
   [/^Fuente: BBVA Research a partir de /, "Source: BBVA Research based on "], [/^(Source: BBVA Research based on .*) y ([^ ]+.*)$/, "$1 and $2"],
