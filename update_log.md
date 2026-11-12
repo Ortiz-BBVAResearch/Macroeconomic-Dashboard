@@ -4,3 +4,4 @@
 - 2026-11-09 19:48: 75 series; errores: paro_reg (total): No module named 'pandas'; paro_reg_yoy (total): No module named 'pandas'
 - 2026-11-10 17:26: 75 series; errores: paro_reg (total): No module named 'pandas'; paro_reg_yoy (total): No module named 'pandas'
 - 2026-11-11 17:11: 75 series; errores: paro_reg (total): No module named 'pandas'; paro_reg_yoy (total): No module named 'pandas'
+- 2026-11-12 17:49: 75 series; errores: paro_reg (total): No module named 'pandas'; paro_reg_yoy (total): No module named 'pandas'
