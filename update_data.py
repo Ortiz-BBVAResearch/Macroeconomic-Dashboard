@@ -104,6 +104,7 @@ CAT = [
     ("bono_de", "mineco", "867321q", "Rentabilidad bono 10 años · Alemania", "%", "D", "financiero", {}),
     ("bce_dfr", "mineco", "867104q", "BCE · facilidad de depósito", "%", "D", "financiero", {}),
     ("euribor12", "bde:be1901", "D_1NBAF472", "Euríbor a 12 meses", "%", "M", "financiero", {}),
+    ("euribor12_daily", "bde:ti_1_7", "D_DNBAF172", "Euríbor a 12 meses · diario", "%", "D", "financiero", {"note": "Observación diaria publicada por el Banco de España; puede estar disponible con retraso."}),
     ("tipo_viv", "bde:be1904", "DN_1TI2T0002", "Tipo nuevas hipotecas (TEDR)", "%", "M", "financiero", {}),
     ("credito_osr", "bde:be0403", "D_BEEA1000", "Crédito a otros sectores residentes (saldo)", "% a/a", "M", "financiero", {"transform": "yoy", "note": "Variación del saldo vivo; no corrige saneamientos ni reclasificaciones."}),
     ("depositos_osr", "bde:be0405", "D_BEEP0000N", "Depósitos de otros sectores residentes (saldo)", "% a/a", "M", "financiero", {"transform": "yoy"}),
@@ -296,6 +297,13 @@ def main(path):
     series, errors = {}, []
     try: previous = json.load(open(path, encoding="utf-8")).get("series", {})
     except Exception: previous = {}
+    # Preserve series from the newer dashboard that this older catalogue does not yet refresh.
+    import copy
+    series = copy.deepcopy(previous)
+    catalogue_ids = {entry[0] for entry in CAT}
+    derived_ids = {"deficit_4q", "cc_pib", "bys_pib", "tur_ing_12m", "prima"}
+    preserved = sorted(set(previous) - catalogue_ids - derived_ids)
+    if preserved: errors.append("Series conservadas sin actualización en este catálogo: " + ", ".join(preserved))
     for sid, src, code, label, unit, freq, block, extra in CAT:
         try:
             if src == "ine": name, obs = ine_series(code); link = INE_LINK.format(c=code); sname = "INE"
@@ -322,6 +330,7 @@ def main(path):
             series[sid] = dict(label=label, unit=unit, freq=freq, block=block, source=sname, code=code,
                                table=src.split(":")[1] if ":" in src else None, original_name=name, link=link,
                                transform=tr, note=extra.get("note"), data=obs)
+            if sid == "euribor12_daily": series[sid]["link"] = "https://www.bde.es/webbe/es/estadisticas/compartido/datos/csv/ti_1_7.csv"
             if freq == "M": series[sid].update(agg_monthly(sid, obs, level, tr))
             print(f"ok  {sid:14s} {obs[-1][0]}  {obs[-1][1]}")
         except Exception as e:

@@ -1,21 +1,15 @@
-"""Embed data.json into template.html.
-   index.html    -> full document for GitHub Pages (works offline too)
-   artifact.html -> body-only version for the claude.ai artifact preview
-Run: python build_page.py"""
-import json, sys
-tpl = open("template.html", encoding="utf-8").read()
-_d = json.load(open("data.json", encoding="utf-8"))
-try: _d["forecasts"] = json.load(open("forecasts.json", encoding="utf-8"))
-except FileNotFoundError: pass
-data = json.dumps(_d, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-i18n = open("i18n.js", encoding="utf-8").read()
-body = tpl.replace("/*__I18N__*/", i18n).replace("__DATA__", data)
-open("artifact.html", "w", encoding="utf-8").write(body)
-head, rest = body.split("</style>", 1)
-doc = ('<!doctype html>\n<html lang="es"><head><meta charset="utf-8">'
-       '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-       '<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}'
-       'body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>\n'
-       + head + "</style>\n</head><body>" + rest + "\n</body></html>\n")
-open("index.html", "w", encoding="utf-8").write(doc)
-print("index.html and artifact.html written", len(doc)//1024, "KB")
+"""Regenerate the current complete dashboard from template.html and data.json."""
+import json
+from pathlib import Path
+tpl = Path("template.html").read_text(encoding="utf-8")
+if tpl.count("__DATA__") != 1:
+    raise ValueError("The template must contain exactly one __DATA__ placeholder")
+data = json.loads(Path("data.json").read_text(encoding="utf-8"))
+forecast = Path("forecasts.json")
+if forecast.exists():
+    data["forecasts"] = json.loads(forecast.read_text(encoding="utf-8"))
+encoded = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+page = tpl.replace("__DATA__", encoded)
+Path("index.html").write_text(page, encoding="utf-8")
+Path("artifact.html").write_text(page, encoding="utf-8")
+print("index.html and artifact.html regenerated")

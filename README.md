@@ -1,3 +1,7 @@
+# Monitor Macro España
+
+Daily Euribor and current build instructions are in [README_EURIBOR.md](README_EURIBOR.md). The original static-export notes follow.
+
 # Monitor Macro España · versión disponible
 
 Este paquete contiene la última página trabajada en la conversación: `index.html` y `data.json` (datos actualizados el 2026-11-06 10:57). Incluye Pizarra de series, mapa de calor y Galería Gráfica.

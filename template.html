@@ -1,3 +1,5 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>BBVA Research Monitor Macro España</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -70,6 +72,8 @@ h3{font-family:var(--sans);font-weight:600;font-size:13.5px;margin:0;text-wrap:b
 .fig .sub{font-size:12px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.02em}
 .fig .src{font-size:11.5px;color:var(--faint);font-family:var(--mono);margin-top:auto;padding-top:4px;overflow-wrap:anywhere}
 .legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--muted)}
+/* legends sit under the plot: title → reading → chart → legend → source */
+.fig>.chart{order:1}.fig>.lg,.fig>.legend{order:2}.fig>figcaption{order:3}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
 .legend i.bar{height:10px;width:10px;border-radius:2px}
@@ -127,7 +131,7 @@ select#addSeries{font:inherit;font-size:14px;padding:8px 10px;border:1px solid v
 .gread .how{font-size:12.5px;color:var(--muted)}
 .explain{background:var(--flag-bg);border-left:4px solid var(--flag);border-radius:6px;padding:14px 18px;font-size:14px;max-width:72ch;margin-top:18px}
 .explain b{color:var(--flag)}
-.bigbars{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:16px}@media(max-width:760px){.bigbars{grid-template-columns:minmax(0,1fr)}}
+.bigbars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 28px}@media(max-width:760px){.bigbars{grid-template-columns:minmax(0,1fr)}}
 .bb{display:flex;align-items:flex-end;justify-content:space-around;gap:10px;height:280px;padding:10px 8px 0;border-bottom:1px solid var(--rule)}
 .bb .col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;flex:1;max-width:110px}
 .bb .v{font-size:28px;font-weight:500;font-variant-numeric:tabular-nums;margin-bottom:6px}
@@ -156,6 +160,29 @@ table.fc td.f{font-weight:600}
 .subnav{margin:4px 0 6px}
 .pchip .axbtn{font-size:11.5px;border:1px solid var(--rule);border-radius:4px;padding:2px 6px;color:var(--accent)}
 .mcol{display:flex;flex-direction:column;gap:0;min-width:0}
+.bbwrap{display:grid;grid-template-columns:300px minmax(0,1fr);gap:32px;align-items:start}
+@media(max-width:900px){.bbwrap{grid-template-columns:minmax(0,1fr)}}
+.bbside{display:flex;flex-direction:column;gap:18px;position:sticky;top:12px}
+.bbgrp{display:flex;flex-direction:column;gap:8px}
+.bbmodes{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.bbmodes button,.bbtr button{font:500 13px/1.2 var(--sans);padding:9px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer;text-align:left}
+.bbmodes button[aria-pressed="true"],.bbtr button[aria-pressed="true"],.bbtabs button[aria-selected="true"]{border-color:var(--accent);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.bbtr{display:flex;gap:6px;flex-wrap:wrap}
+.bbtabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--rule)}
+.bbtabs button{font:600 13px/1 var(--sans);padding:10px 6px;background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer}
+.bbtabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent);box-shadow:none}
+.bbsearch{width:100%;font:400 13px/1.2 var(--sans);padding:9px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);color:var(--ink)}
+.bblist{max-height:520px;overflow:auto;display:flex;flex-direction:column;gap:2px;padding-right:4px}
+.bblist .bbh{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 0 4px}
+.bblist label{display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.3;padding:5px 4px;border-radius:4px;cursor:pointer}
+.bblist label:hover{background:var(--neutral-bg)}
+.bblist label .u{color:var(--muted);font-size:11.5px;margin-left:4px}
+.bblist input[disabled]+span{color:var(--muted)}
+.bbsel{display:flex;flex-direction:column;gap:6px}
+.bbsel .row{display:grid;grid-template-columns:12px minmax(0,1fr) auto auto;gap:8px;align-items:center;font-size:13px;padding:6px 0;border-bottom:1px solid var(--rule)}
+.bbsel .sw{width:12px;height:12px;border-radius:3px}
+.bbsel button{font:500 12px/1 var(--sans);padding:5px 7px;border:1px solid var(--rule);border-radius:5px;background:var(--surface);color:var(--muted);cursor:pointer}
+.bbsel .tag{font-family:var(--mono);font-size:11px;color:var(--accent)}
 .mgrid{row-gap:20px}
 .mgrid .fig>div:first-child{min-height:64px}
 .mgrid .lg{min-height:44px}
@@ -164,7 +191,7 @@ table.fc td.f{font-weight:600}
 .mcol .pickrow .picks{flex:0 0 auto}
 .subnav button{padding:9px 16px;font-size:13.5px}
 .warnline{font-size:13px;color:var(--flag);background:var(--flag-bg);border-radius:6px;padding:8px 12px;margin:0 0 12px;max-width:80ch}
-.scatwrap{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:28px;align-items:start}@media(max-width:820px){.scatwrap{grid-template-columns:minmax(0,1fr)}}
+.scatwrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 28px;align-items:start}@media(max-width:820px){.scatwrap{grid-template-columns:minmax(0,1fr)}}
 .stats{display:flex;flex-direction:column;gap:0;padding-top:46px}
 .stats div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--grid);font-size:13.5px;color:var(--muted)}
 .stats b{color:var(--ink);font-variant-numeric:tabular-nums;font-size:15px}
@@ -185,6 +212,7 @@ footer .wrap{padding-block:0 32px}
 @media(max-width:600px){.datactl{align-items:flex-start}.status{text-align:left}.kpi .val{font-size:26px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+<style>.bbmultiples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.bbmini{min-width:0}.bbmini-chart{width:100%}.bbheat-scroll{overflow:auto;max-width:100%}.bbheat{border-collapse:separate;border-spacing:2px;font-size:11px}.bbheat th{white-space:nowrap;padding:5px;text-align:left}.bbheat th:first-child{position:sticky;left:0;background:var(--surface);z-index:1;max-width:200px;overflow:hidden;text-overflow:ellipsis}.bbheat td{min-width:34px;height:28px}.bbheat .bbmissing{background:#d5dee8}@media(max-width:700px){.bbmultiples{grid-template-columns:1fr}}</style></head><body>
 
 <header class="mast"><div class="wrap">
   <div>
@@ -205,11 +233,244 @@ footer .wrap{padding-block:0 32px}
 <script id="embedded-data" type="application/json">__DATA__</script>
 <script>
 "use strict";
-/*__I18N__*/
+/* English translations for the Spanish UI. Edit freely: keys are the Spanish text exactly as shown.
+   Lookup order for each text node: exact match -> split on " · " -> "label (unit)" -> phrase rules (RULES). */
+const EN = {
+  "3 años, 4 trimestres y 3 últimos meses · las series trimestrales (precios y crédito) no tienen columnas mensuales · años y trimestres: sumas de 12 meses, último mes del periodo; tasas, sobre la media del periodo; índices y tipos, media": "3 years, 4 quarters and last 3 months · quarterly series (prices and credit) have no monthly columns · years and quarters: 12-month sums, last month of the period; rates, on the period average; indices and interest rates, average",
+  "% a/a salvo indicación · 3 años, 4 trimestres y 3 últimos meses · * dato de avance · años y trimestres: tasas calculadas sobre la media del periodo o media de los meses (índices, saldos y niveles)": "% y/y unless stated · 3 years, 4 quarters and last 3 months · * flash estimate · years and quarters: rates computed on the period average, or average of the months (indices, balances and levels)",
+  "3 años, 4 trimestres y 3 últimos meses · * dato de avance · años y trimestres: media de los meses; sumas de 12 meses y saldos acumulados, último mes del periodo": "3 years, 4 quarters and last 3 months · * flash estimate · years and quarters: average of the months; 12-month sums and year-to-date balances, last month of the period",
+  "% a/a salvo indicación · índices de volumen encadenados, corregidos de estacionalidad y calendario · últimos 3 años y 8 trimestres · anual: crecimiento de la media anual; aportaciones, media de los trimestres": "% y/y unless stated · chain-linked volumes, seasonally and calendar adjusted · last 3 years and 8 quarters · annual: growth of the annual average; contributions, average of the quarters",
+  "Valor añadido bruto por ramas, % a/a · volumen, corregido de estacionalidad y calendario · últimos 3 años y 8 trimestres · anual: crecimiento de la media anual": "Gross value added by sector, % y/y · volume, seasonally and calendar adjusted · last 3 years and 8 quarters · annual: growth of the annual average",
+  "Últimos 3 años y 8 trimestres · anual: media del año (paro, ocupados), crecimiento de la media anual (tasas) y cuarto trimestre (deuda y déficit)": "Last 3 years and 8 quarters · annual: year average (unemployment, employment), growth of the annual average (rates) and fourth quarter (debt and deficit)",
+  // tables tab
+  "PIB: demanda": "GDP: demand", "PIB: oferta": "GDP: supply", "Indicadores de vivienda": "Housing indicators", "Indicadores coyunturales": "Short-term indicators",
+  "Precios, sector exterior y financiación": "Prices, external sector and financing", "Mercado laboral y sector público": "Labour market and public sector", "Mercados financieros": "Financial markets",
+  "% a/a salvo indicación · índices de volumen encadenados, corregidos de estacionalidad y calendario · últimos 8 trimestres": "% y/y unless stated · chain-linked volumes, seasonally and calendar adjusted · last 8 quarters",
+  "Valor añadido bruto por ramas, % a/a · volumen, corregido de estacionalidad y calendario · últimos 8 trimestres": "Gross value added by sector, % y/y · volume, seasonally and calendar adjusted · last 8 quarters",
+  "Último dato, dato anterior y hace un año · frecuencias mensual y trimestral": "Latest, previous and a year earlier · monthly and quarterly frequencies",
+  "% a/a salvo indicación · últimos 12 meses · * dato de avance": "% y/y unless stated · last 12 months · * flash estimate", "Últimos 12 meses · * dato de avance": "Last 12 months · * flash estimate",
+  "Datos trimestrales · últimos 8 trimestres": "Quarterly data · last 8 quarters", "Copiar CSV pega en Excel con separador punto y coma.": "Copy CSV pastes into Excel with a semicolon separator.",
+  "Demanda nacional": "Domestic demand", "Sector exterior": "External sector", "Aportaciones al crecimiento del PIB": "Contributions to GDP growth", "Valor añadido bruto": "Gross value added",
+  "Precios": "Prices", "Demanda": "Demand", "Oferta": "Supply", "Financiación": "Financing", "Actividad": "Activity", "Confianza": "Confidence", "Turismo": "Tourism", "Mercado laboral": "Labour market",
+  "Sector público y exterior": "Public and external sector", "Crédito y tipos": "Credit and interest rates", "Sector público": "Public sector", "Tablas": "Tables",
+  "Fuente: BBVA Research a partir de INE, Ministerio de Vivienda y Agenda Urbana, Consejo General del Notariado y Banco de España": "Source: BBVA Research based on INE, Ministry of Housing and Urban Agenda, General Council of Notaries and Bank of Spain",
+  "Fuente: BBVA Research a partir de INE, Seguridad Social, SEPE, Ministerio de Economía (BDSICE), Comisión Europea y OCDE": "Source: BBVA Research based on INE, Social Security, SEPE, Ministry of Economy (BDSICE), European Commission and OECD",
+  "Fuente: BBVA Research a partir de INE, Banco de España y Ministerio de Economía (BDSICE)": "Source: BBVA Research based on INE, Bank of Spain and Ministry of Economy (BDSICE)",
+  "Fuente: BBVA Research a partir de INE, Seguridad Social y Banco de España": "Source: BBVA Research based on INE, Social Security and Bank of Spain",
+  "Empleo: EPA y afiliación": "Employment: LFS and Social Security registrations", "% a/a. Ocupados EPA (barras) y afiliados medios a la Seguridad Social, media trimestral (línea)": "% y/y. LFS employment (bars) and average Social Security registrations, quarterly average (line)", "Ocupados EPA": "LFS employment", "Afiliados Seguridad Social": "Social Security registrations", "Afiliados a la Seguridad Social (media trimestral)": "Social Security registrations (quarterly average)",
+  "Miles, media mensual desestacionalizada (Seguridad Social)": "Thousands, seasonally adjusted monthly average (Social Security)", "Afiliados desestacionalizados": "Seasonally adjusted registrations",
+  "Miles, datos originales (SEPE)": "Thousands, unadjusted (SEPE)", "Afiliados a la Seguridad Social (desestacionalizados)": "Social Security registrations (seasonally adjusted)",
+  "Seguridad Social": "Social Security", "SEPE (Ministerio de Trabajo)": "SEPE (Ministry of Labour)",
+  "Fuente: BBVA Research a partir de INE, Banco de España, Seguridad Social, SEPE y Ministerio de Economía (BDSICE)": "Source: BBVA Research based on INE, Bank of Spain, Social Security, SEPE and Ministry of Economy (BDSICE)",
+  "Actividad, empleo, precios, cuentas públicas, sector exterior y condiciones financieras de la economía española, con las series oficiales del INE, el Banco de España, la Seguridad Social, el Ministerio de Trabajo, el Ministerio de Vivienda y el Ministerio de Economía.": "Activity, employment, prices, public finances, external sector and financial conditions in the Spanish economy, from the official series of INE, the Bank of Spain, the Social Security, the Ministry of Labour, the Ministry of Housing and the Ministry of Economy.",
+  // housing
+  "Vivienda": "Housing", "Precio de la vivienda": "House prices", "IPV (INE)": "HPI (INE)", "Valor tasado": "Appraised value",
+  "% a/a. Índice de precios de vivienda (INE) y valor tasado de la vivienda libre (Ministerio de Vivienda)": "% y/y. House price index (INE) and appraised value of free-market housing (Ministry of Housing)",
+  "Valor tasado de la vivienda libre": "Appraised value of free-market housing", "€/m², trimestral": "€/m², quarterly", "€/m²": "€/m²",
+  "Compraventa de viviendas": "Home sales", "Miles de operaciones, suma de 12 meses (Notariado)": "Thousands of transactions, 12-month sum (Notaries)", "Compraventas": "Sales",
+  "Actividad constructora residencial": "Residential construction activity", "Miles de viviendas, suma de 12 meses": "Thousands of dwellings, 12-month sum",
+  "Visados de obra nueva": "New-build permits", "Visados": "Permits", "Iniciadas": "Started", "Terminadas": "Completed",
+  "Visados y compraventas": "Permits and sales", "% a/a de la suma de 12 meses": "% y/y of the 12-month sum",
+  "Vivienda protegida": "Social housing", "Calificaciones definitivas, miles, suma de 12 meses": "Final certifications, thousands, 12-month sum", "Calificaciones definitivas": "Final certifications",
+  "Coste de construcción residencial": "Residential construction costs", "Índice de costes del Ministerio de Vivienda, % a/a": "Ministry of Housing cost index, % y/y", "Coste de construcción": "Construction costs",
+  "Hipotecas y crédito a la vivienda": "Mortgages and housing credit", "% a/a. Número de hipotecas (INE) y saldo de crédito a hogares para vivienda (BdE)": "% y/y. Number of mortgages (INE) and outstanding household housing credit (Bank of Spain)",
+  "Hipotecas (número)": "Mortgages (number)", "Crédito a la vivienda": "Housing credit", "Tipo de interés de las nuevas hipotecas": "Interest rate on new mortgages",
+  "TEDR de nuevas operaciones y Euríbor a 12 meses, %": "NDER on new business and 12-month Euribor, %",
+  "Visados de obra nueva: viviendas (12 meses)": "New-build permits: dwellings (12 months)", "Viviendas iniciadas (12 meses)": "Housing starts (12 months)",
+  "Viviendas terminadas (12 meses)": "Housing completions (12 months)", "Vivienda protegida: calificaciones definitivas (12 meses)": "Social housing: final certifications (12 months)",
+  "Compraventa de viviendas (12 meses)": "Home sales (12 months)", "Créditos y depósitos": "Credit and deposits", "Coste salarial total por trabajador y mes (ETCL)": "Total wage cost per worker per month (QLCS)", "Coste salarial ordinario por trabajador y mes (ETCL)": "Ordinary wage cost per worker per month (QLCS)", "Coste laboral total por trabajador y mes (ETCL)": "Total labour cost per worker per month (QLCS)", "Incremento salarial pactado en convenios (acumulado en el año)": "Wage increase agreed in collective agreements (year to date)", "Salarios y costes laborales": "Wages and labour costs", "% a/a. Coste por trabajador y mes (ETCL, trimestral) e incremento pactado en convenios (mensual, acumulado en el año)": "% y/y. Cost per worker per month (QLCS, quarterly) and wage increase agreed in collective agreements (monthly, year to date)", "Coste salarial total": "Total wage cost", "Salarial total": "Total wages", "Coste salarial ordinario": "Ordinary wage cost", "Salarial ordinario": "Ordinary wages", "Coste laboral total": "Total labour cost", "Laboral total": "Labour cost", "Convenios": "Collective agreements", "Salarios frente a inflación": "Wages vs inflation", "% a/a. Coste salarial ordinario por trabajador (ETCL) e IPC general": "% y/y. Ordinary wage cost per worker (QLCS) and headline CPI", "Salarios": "Wages", "Precios y salarios": "Prices and wages", "Precios, salarios, sector exterior y financiación": "Prices, wages, external sector and financing", "Ministerio de Trabajo y Economía Social (BDSICE)": "Ministry of Labour and Social Economy (BDSICE)", "Fuente: BBVA Research a partir de INE, Ministerio de Trabajo y Economía Social, Banco de España y Ministerio de Economía (BDSICE)": "Source: BBVA Research based on INE, Ministry of Labour and Social Economy, Banco de España and Ministry of Economy (BDSICE)", "Pizarra de series": "Series blackboard", "Pizarra de series temporales": "Time Series Blackboard", "Modalidad de gráfico": "Chart type", "Líneas": "Lines", "Dos ejes": "Two axes", "Barras": "Bars", "Barras apiladas": "Stacked bars", "Dispersión": "Scatter", "Transformación": "Transformation", "Nivel": "Level", "Estandarizado": "Standardised", "Base 100": "Base 100", "Ajuste": "Fit", "Lineal": "Linear", "Cuadrático": "Quadratic", "No lineal": "Non-linear", "Buscar serie…": "Search series…", "Eje izq.": "Left axis", "Eje dcho.": "Right axis", "Eje X": "X axis", "Eje Y": "Y axis", "Intercambiar ejes": "Swap axes", "Pizarra vacía": "Empty blackboard", "Elige series en el panel de la izquierda": "Pick series in the left panel", "Ninguna serie coincide con la búsqueda.": "No series match the search.", "No hay series elegidas. Márcalas en «Todas las series».": "No series selected. Tick them under 'All series'.", "Opciones de la pizarra": "Blackboard options", "Cambiar de eje": "Switch axis", "Las series tienen unidades distintas: usa «Dos ejes» o la transformación «Estandarizado» para compararlas.": "The series have different units: use 'Two axes' or the 'Standardised' transformation to compare them.", "Dispersión: elige una segunda serie para el eje Y": "Scatter: pick a second series for the Y axis", "Crédito a otros sectores residentes (saldo)": "Credit to other resident sectors (stock)", "Ratio de dudosidad del crédito a otros sectores residentes": "NPL ratio, credit to other resident sectors", "Crédito para actividades productivas (saldo)": "Credit for productive activities (stock)", "Crédito a hogares para consumo (saldo)": "Household consumer credit (stock)", "Depósitos de otros sectores residentes (saldo)": "Deposits of other resident sectors (stock)", "Depósitos a la vista de otros sectores residentes": "Overnight deposits, other resident sectors", "Depósitos a plazo y con preaviso de otros sectores residentes": "Time and notice deposits, other resident sectors", "Nuevas operaciones de crédito a la vivienda (12 meses)": "New housing loans (12 months)", "Nuevas operaciones de crédito al consumo (12 meses)": "New consumer loans (12 months)", "Nuevas operaciones de crédito a empresas (12 meses)": "New loans to firms (12 months)", "Tipo nuevas operaciones de crédito al consumo (TEDR)": "Rate on new consumer loans (NDER)", "Tipo nuevas operaciones de crédito a empresas (TEDR)": "Rate on new loans to firms (NDER)", "Tipo del saldo vivo de crédito a la vivienda (TEDR)": "Rate on outstanding housing loans (NDER)", "Tipo nuevos depósitos a plazo de hogares (TEDR)": "Rate on new household time deposits (NDER)", "Tipo nuevos depósitos a plazo de empresas (TEDR)": "Rate on new corporate time deposits (NDER)", "Tipo de los depósitos a la vista de hogares (TEDR)": "Rate on household overnight deposits (NDER)", "Ratio de dudosidad: actividades productivas": "NPL ratio: productive activities", "Ratio de dudosidad: vivienda de hogares": "NPL ratio: household housing", "Ratio de dudosidad: consumo de hogares": "NPL ratio: household consumption", "Crédito y depósitos del sector privado": "Private sector credit and deposits", "Saldo vivo de otros sectores residentes, miles de millones de euros": "Outstanding stock, other resident sectors, € billion", "Crédito por finalidad": "Credit by purpose", "Variación interanual del saldo vivo, %, trimestral": "Year-on-year change in the outstanding stock, %, quarterly", "Depósitos por modalidad": "Deposits by type", "Variación interanual del saldo vivo, %": "Year-on-year change in the outstanding stock, %", "Nuevas operaciones de crédito": "New lending", "Importe acumulado en 12 meses, % a/a": "12-month cumulative amount, % y/y", "Tipos de interés del nuevo crédito": "Interest rates on new loans", "TEDR de nuevas operaciones y Euríbor a 12 meses, %": "NDER on new business and 12-month Euribor, %", "Tipos de interés de los depósitos": "Deposit interest rates", "TEDR de nuevas operaciones, %": "NDER on new business, %", "Ratio de dudosidad": "NPL ratio", "Créditos dudosos sobre el total del crédito a otros sectores residentes, %": "Doubtful loans over total credit to other resident sectors, %", "Dudosidad por finalidad": "NPL ratio by purpose", "Créditos dudosos sobre el saldo de cada finalidad, %, trimestral": "Doubtful loans over the stock of each purpose, %, quarterly", "Actividades productivas": "Productive activities", "Empresas": "Firms", "Consumo": "Consumption", "A la vista": "Overnight", "A plazo y preaviso": "Time and notice", "A plazo": "Time", "Plazo, empresas": "Time, firms", "Plazo empresas": "Time firms", "Plazo, hogares": "Time, households", "Plazo hogares": "Time households", "A la vista, hogares": "Overnight, households", "Vista hogares": "Overnight households", "Dudosidad": "NPL ratio", "Depósitos": "Deposits", "Crédito": "Credit", "Total": "Total", "Saldos vivos": "Outstanding stocks", "Crédito por finalidad (% a/a)": "Credit by purpose (% y/y)", "Nuevas operaciones (12 meses)": "New business (12 months)", "Tipos de interés (TEDR)": "Interest rates (NDER)", "Calidad del crédito": "Credit quality", "3 años, 4 trimestres y 3 últimos meses · saldos y dudosidad: final del periodo; tasas, sobre la media del periodo; tipos de interés, media · crédito por finalidad y dudosidad por finalidad, trimestral": "3 years, 4 quarters and last 3 months · stocks and NPL ratios: end of period; growth rates, on the period average; interest rates, average · credit and NPL ratios by purpose, quarterly", "Últimos 3 años, 4 trimestres y 3 meses · anual y trimestral: media del periodo o crecimiento de la media, según el indicador": "Last 3 years, 4 quarters and 3 months · annual and quarterly: period average or growth of the average, depending on the indicator", "Fuente: BBVA Research a partir de Banco de España": "Source: BBVA Research based on Banco de España", "Compraventa de viviendas, notarios (12 meses)": "Home sales, notaries (12 months)", "Compraventa de viviendas inscritas, registros (12 meses)": "Home sales registered, land registries (12 months)", "INE (Estadística de Transmisiones de Derechos de la Propiedad, Registros de la Propiedad)": "INE (Property Transfer Statistics, Land Registries)", "Crédito a hogares para adquisición de vivienda (saldo)": "Household credit for house purchase (stock)",
+  "Ministerio de Vivienda y Agenda Urbana (BDSICE)": "Ministry of Housing and Urban Agenda (BDSICE)", "Consejo General del Notariado (BDSICE)": "General Council of Notaries (BDSICE)",
+  "BBVA Research Monitor Macro España": "BBVA Research Spain Macro Monitor", "Explorador de series temporales": "Time Series Explorer",
+  "Stack": "Stack",
+  "Barras apiladas": "Stacked bars", "Ejemplos": "Examples", "Elige un ejemplo…": "Choose an example…", "Línea (total)": "Line (total)", "Ninguna": "None",
+  "Aportaciones al crecimiento del PIB": "Contributions to GDP growth", "Componentes del IPC (tasas, no aportaciones)": "CPI components (rates, not contributions)",
+  "Saldo exterior: bienes y servicios y cuenta corriente": "External balance: goods and services and current account",
+  "Las series tienen unidades distintas; el apilado solo es interpretable si los componentes suman al total.": "The series have different units; stacking only makes sense if the components add up to the total.",
+  "No hay series elegidas. Usa «Añadir una serie…» o elige un ejemplo.": "No series selected. Use “Add a series…” or choose an example.",
+  "Unidades distintas en un solo eje: usa Estandarizado o el gráfico de dos escalas para compararlas.": "Different units on one axis: use Standardised or the two-scale chart to compare them.",
+  "eje izq.": "left axis", "eje dcho.": "right axis",
+  "Misma escala": "Same scale", "Dos escalas": "Two scales", "Izq.": "Left", "Dcha.": "Right", "Eje izq.": "Left axis", "Eje dcho.": "Right axis",
+  "Estandarizado: desviación respecto a la media del periodo mostrado, en desviaciones típicas": "Standardised: deviation from the mean of the period shown, in standard deviations",
+  "Estas series tienen unidades distintas. El gráfico mantiene un solo eje; usa Estandarizado o el gráfico de dos escalas para compararlas.": "These series have different units. The chart keeps one axis; use Standardised or the two-scale chart to compare them.",
+  "Ajuste": "Fit", "Lineal": "Linear", "Cuadrático": "Quadratic", "No lineal (LOWESS)": "Non-linear (LOWESS)", "Término lineal": "Linear term", "Término cuadrático": "Quadratic term", "R² cuadrático": "Quadratic R²", "R² lineal": "Linear R²", "Ventana LOWESS": "LOWESS window", "R² LOWESS": "LOWESS R²",
+  "Series (hasta seis)": "Series (up to six)", "Máximo seis series: quita una para añadir otra": "Maximum six series: remove one to add another",
+  // explorer views
+  "Galería": "Gallery", "Gráfico multiserie": "Multi-series chart", "Dispersión": "Scatter", "Vistas del explorador": "Explorer views",
+  "Mostrar": "Show", "Como se publica": "As published", "Estandarizado": "Standardised", "Eje horizontal (X)": "Horizontal axis (X)", "Eje vertical (Y)": "Vertical axis (Y)",
+  "Intercambiar ejes": "Swap axes", "Opciones": "Options", "Unir puntos en orden temporal": "Join points in time order",
+  "Observaciones": "Observations", "Correlación": "Correlation", "Pendiente (MCO)": "Slope (OLS)", "R²": "R²", "σ": "σ",
+  "mensual": "monthly", "trimestral": "quarterly", "diaria": "daily", "% del PIB": "% of GDP", "millones de euros": "€ million",
+  "PIB": "GDP", "PIB a/a": "GDP y/y", "Variación trimestral (barras) e interanual (línea), % · corregido de estacionalidad y calendario": "Quarter-on-quarter (bars) and year-on-year (line) change, % · seasonally and calendar adjusted",
+  // titles, subtitles and sources of tables
+  "Último dato publicado, dato anterior y hace un año": "Latest published figure, previous figure and a year earlier",
+  "Fuente: BBVA Research a partir de INE, Banco de España y Ministerio de Economía (BDSICE)": "Source: BBVA Research based on INE, Bank of Spain and Ministry of Economy (BDSICE)",
+  "Fuente: BBVA Research a partir de Banco de España y Ministerio de Economía (BDSICE)": "Source: BBVA Research based on Bank of Spain and Ministry of Economy (BDSICE)",
+  "Fuente: BBVA Research a partir de INE, Banco de España e IGAE": "Source: BBVA Research based on INE, Bank of Spain and IGAE",
+  "Fuente: BBVA Research a partir de INE y Banco de España": "Source: BBVA Research based on INE and Bank of Spain",
+  "Fuente: BBVA Research a partir de INE": "Source: BBVA Research based on INE",
+  "Fuente: INE, Banco de España y Ministerio de Economía (BDSICE)": "Source: INE, Bank of Spain and Ministry of Economy (BDSICE)",
+  "Indicadores trimestrales": "Quarterly indicators", "Indicadores mensuales": "Monthly indicators", "Indicadores de mercado": "Market indicators",
+  "Últimos 8 trimestres · * dato de avance": "Last 8 quarters · * flash estimate", "Últimos 12 meses · * dato de avance": "Last 12 months · * flash estimate",
+  "Datos diarios: último dato y hace 1 semana, 1 mes y 1 año": "Daily data: latest and 1 week, 1 month and 1 year earlier",
+  "Variación anual, % · (p): previsión": "Annual change, % · (f): forecast",
+  "% a/a · * aportación al crecimiento del PIB, pp · (p): previsión": "% y/y · * contribution to GDP growth, pp · (f): forecast",
+  "% a/a salvo indicación · (p): previsión": "% y/y unless stated · (f): forecast",
+  "Series del monitor con su fuente, código, tratamiento y último dato": "Monitor series with source, code, treatment and latest observation",
+  // shell
+  "Monitor Macro España": "Spain Macro Monitor",
+  "Actividad, empleo, precios, cuentas públicas, sector exterior y condiciones financieras de la economía española, con las series oficiales del INE, el Banco de España y el Ministerio de Economía.":
+    "Activity, employment, prices, public finances, external sector and financial conditions in the Spanish economy, from the official series of INE, the Bank of Spain and the Ministry of Economy.",
+  "Actualizar datos": "Refresh data", "Secciones": "Sections", "Periodo": "Period",
+  "Resumen": "Overview", "Explorador de series": "Series explorer", "Actividad": "Activity", "Empleo": "Employment",
+  "Precios": "Prices", "Sector público y exterior": "Public and external sector", "Financiero": "Financial",
+  "Previsiones BBVA Research": "BBVA Research forecasts", "Tablas": "Tables", "Fuentes y método": "Sources and method",
+  "Actividad y demanda": "Activity and demand", "Mercado laboral": "Labour market", "Condiciones financieras": "Financial conditions",
+  "Coyuntura": "Short-term indicators", "Sector público": "Public sector", "Sector exterior": "External sector",
+  "1 año": "1 year", "3 años": "3 years", "4 años": "4 years", "5 años": "5 years", "10 años": "10 years", "Todo": "All",
+  "Historial completo": "Full history", "Últimos 4 años": "Last 4 years",
+  "sin cambio": "no change", "avance": "flash", "vs. hace una semana": "vs. a week earlier", "vs. mes anterior": "vs. previous month",
+  "vs. trimestre anterior": "vs. previous quarter", "Sin datos en este periodo.": "No data in this period.",
+  // summary and tables
+  "Indicadores clave": "Key indicators", "Cuadro de indicadores": "Indicator table",
+  "Último dato y variación respecto al periodo anterior. Verde y rojo indican si el movimiento es favorable o desfavorable.":
+    "Latest figure and change on the previous period. Green and red show whether the move is favourable or unfavourable.",
+  "Indicador": "Indicator", "Último": "Latest", "Anterior": "Previous", "Hace un año": "A year ago", "Fuente": "Source", "Fecha": "Date",
+  "Hace 1 semana": "1 week ago", "Hace 1 mes": "1 month ago", "Hace 1 año": "1 year ago", "Copiar CSV": "Copy CSV", "Copiado": "Copied",
+  "Selecciona y copia el texto": "Select and copy the text",
+  "Trimestral · últimos 8 trimestres": "Quarterly · last 8 quarters", "Mensual · últimos 12 meses": "Monthly · last 12 months",
+  "Mercados · datos diarios": "Markets · daily data",
+  "Últimas observaciones por frecuencia. * dato de avance. Copiar CSV pega en Excel con separador punto y coma.":
+    "Latest observations by frequency. * flash estimate. Copy CSV pastes into Excel with a semicolon separator.",
+  "Serie": "Series", "Código": "Code", "Tratamiento": "Treatment", "Último dato": "Latest observation", "Catálogo de series": "Series catalogue",
+  "serie publicada": "published series",
+  "% sobre el mismo periodo del año anterior, calculado desde niveles": "% change on the same period a year earlier, computed from levels",
+  "% sobre el mismo periodo del año anterior, calculado desde niveles Variación del saldo vivo; no corrige saneamientos ni reclasificaciones.":
+    "% change on the same period a year earlier, computed from levels. Change in the outstanding stock; not adjusted for write-offs or reclassifications.",
+  "saldo IGAE desacumulado, suma móvil de 4 trimestres / suma de 4 trimestres del PIB nominal": "IGAE balance de-cumulated, 4-quarter rolling sum / 4-quarter sum of nominal GDP",
+  "suma de 12 meses / PIB nominal de los 4 últimos trimestres disponibles": "12-month sum / nominal GDP of the last 4 available quarters",
+  "suma móvil de 12 meses": "12-month rolling sum", "diferencia diaria × 100": "daily difference × 100",
+  // explorer
+  "La economía española en movimiento": "The Spanish economy in motion", "Series (hasta cuatro)": "Series (up to four)",
+  "Añadir una serie": "Add a series", "Añadir una serie…": "Add a series…", "Máximo cuatro series: quita una para añadir otra": "Maximum four series: remove one to add another",
+  "No hay series elegidas. Usa «Añadir una serie…» para empezar.": "No series selected. Use “Add a series…” to start.",
+  // forecasts
+  "Crecimiento del PIB": "GDP growth", "Previsión revisada al alza": "Forecast revised up", "Previsión sin cambios": "Forecast unchanged",
+  "Previsión revisada a la baja": "Forecast revised down", "(p): previsión. Fuente: BBVA Research a partir de INE": "(f): forecast. Source: BBVA Research based on INE",
+  "Observado": "Observed", "Diferencia": "Difference", "Base del dato observado": "Basis of the observed figure",
+  "Previsiones: demanda y PIB": "Forecasts: demand and GDP", "Previsiones: empleo, precios y sector público": "Forecasts: employment, prices and public sector",
+  "BBVA Research, Spain Economic Outlook, octubre 2026": "BBVA Research, Spain Economic Outlook, October 2026",
+  "Gasto en consumo final nacional": "National final consumption expenditure", "Consumo privado": "Private consumption", "Consumo público": "Public consumption",
+  "Formación bruta de capital fijo": "Gross fixed capital formation", "Equipo y maquinaria": "Equipment and machinery", "Construcción": "Construction",
+  "Vivienda": "Housing", "Demanda nacional*": "Domestic demand*", "Exportaciones": "Exports", "Exportaciones de bienes": "Goods exports",
+  "Exportaciones de servicios": "Services exports", "Servicios no turísticos": "Non-tourism services",
+  "Consumo final de no residentes en el territorio": "Final consumption of non-residents in the economic territory", "Importaciones": "Imports",
+  "Demanda externa*": "External demand*", "PIB real a precios de mercado": "Real GDP at market prices",
+  "Empleo CNTR (equivalente a tiempo completo)": "QNA employment (full-time equivalent)", "Empleo EPA": "LFS employment",
+  "Tasa de paro (% población activa)": "Unemployment rate (% labour force)", "IPC (media anual)": "CPI (annual average)", "Deflactor del PIB": "GDP deflator",
+  "Déficit público (% del PIB)": "Public deficit (% of GDP)", "Deuda pública (% del PIB)": "Public debt (% of GDP)",
+  "PIB real": "Real GDP", "Tasa de paro": "Unemployment rate", "Déficit público": "Public deficit", "Deuda pública": "Public debt",
+  // series labels
+  "PIB · variación trimestral": "GDP · quarter-on-quarter change", "PIB · variación interanual": "GDP · year-on-year change",
+  "Demanda nacional": "Domestic demand", "Consumo de los hogares": "Household consumption", "Consumo de las AAPP": "Government consumption",
+  "Exportaciones de bienes y servicios": "Exports of goods and services", "Importaciones de bienes y servicios": "Imports of goods and services",
+  "Aportación de la demanda nacional": "Contribution of domestic demand", "Aportación de la demanda externa": "Contribution of external demand",
+  "VAB agricultura": "GVA agriculture", "VAB industria": "GVA industry", "VAB construcción": "GVA construction", "VAB servicios": "GVA services",
+  "Producción industrial (CVEC)": "Industrial production (SCA)", "Ventas del comercio minorista, precios constantes": "Retail sales, constant prices",
+  "Indicador sintético de actividad · industria": "Synthetic activity indicator · industry", "Indicador sintético de actividad · servicios": "Synthetic activity indicator · services",
+  "Indicador sintético de actividad · construcción": "Synthetic activity indicator · construction",
+  "Indicador de sentimiento económico (CE)": "Economic sentiment indicator (EC)", "Confianza del consumidor (CE)": "Consumer confidence (EC)",
+  "Indicador adelantado compuesto OCDE (CLI)": "OECD composite leading indicator (CLI)", "Matriculaciones de turismos": "Passenger car registrations",
+  "Consumo eléctrico corregido de temperatura y calendario": "Electricity consumption adjusted for temperature and calendar",
+  "Entrada de turistas internacionales (Frontur)": "International tourist arrivals (Frontur)", "Gasto de turistas internacionales (Egatur)": "International tourist spending (Egatur)",
+  "Hipotecas sobre viviendas (número)": "Home mortgages (number)", "Tasa de paro (EPA)": "Unemployment rate (LFS)", "Ocupados (EPA)": "Employed (LFS)",
+  "Afiliados a la Seguridad Social (CVEC)": "Social Security registrations (SCA)", "Afiliados a la Seguridad Social (media mensual)": "Social Security registrations (monthly average)",
+  "Paro registrado (CVEC)": "Registered unemployment (SCA)", "Paro registrado": "Registered unemployment",
+  "IPC general": "Headline CPI", "IPC subyacente": "Core CPI", "IPC productos energéticos": "CPI energy products", "IPC alimentos, bebidas y tabaco": "CPI food, beverages and tobacco",
+  "IPC servicios": "CPI services", "IPCA (armonizado)": "HICP (harmonised)", "Diferencial de inflación IPCA España − UEM": "HICP inflation differential Spain − EMU",
+  "Precio de la vivienda (IPV)": "House prices (HPI)", "Deuda de las AAPP (PDE)": "General government debt (EDP)",
+  "Saldo AC+CCAA+SS acumulado en el año": "Central govt + regions + Social Security balance, year to date",
+  "Saldo de las AAPP (suma 4 trimestres)": "General government balance (4-quarter sum)", "Saldo por cuenta corriente (12 meses)": "Current account balance (12 months)",
+  "Saldo de bienes y servicios (12 meses)": "Goods and services balance (12 months)", "Ingresos por turismo (12 meses)": "Tourism receipts (12 months)",
+  "Rentabilidad bono 10 años · España": "10-year bond yield · Spain", "Rentabilidad bono 10 años · Alemania": "10-year bond yield · Germany",
+  "BCE · facilidad de depósito": "ECB · deposit facility rate", "Euríbor a 12 meses": "12-month Euribor", "Tipo nuevas hipotecas (TEDR)": "New mortgage rate (NDER)",
+  "Crédito a otros sectores residentes (saldo)": "Credit to other resident sectors (stock)", "Depósitos de otros sectores residentes (saldo)": "Deposits of other resident sectors (stock)",
+  "Prima de riesgo España − Alemania (10 años)": "Risk premium Spain − Germany (10 years)",
+  "Saldo AC+CCAA+SS acumulado en el año por año": "Central govt + regions + Social Security balance, year to date, by year",
+  // figure titles, subtitles and legend names
+  "PIB y aportaciones al crecimiento": "GDP and contributions to growth",
+  "Variación interanual del PIB (línea) y aportaciones de la demanda nacional y externa (barras), pp. CVEC": "GDP year-on-year change (line) and contributions of domestic and external demand (bars), pp. SCA",
+  "Demanda externa": "External demand", "PIB, % a/a": "GDP, % y/y", "% t/t, datos corregidos de estacionalidad y calendario": "% q/q, seasonally and calendar adjusted",
+  "PIB t/t": "GDP q/q", "Demanda interna": "Domestic demand", "% a/a, índices de volumen encadenados, CVEC": "% y/y, chain-linked volumes, SCA",
+  "Consumo hogares": "Household consumption", "Hogares": "Households", "Consumo AAPP": "Government consumption", "AAPP": "Government",
+  "Inversión (FBCF)": "Investment (GFCF)", "FBCF": "GFCF", "Comercio exterior (CNTR)": "Foreign trade (QNA)", "% a/a, volumen, CVEC": "% y/y, volume, SCA",
+  "Valor añadido por ramas": "Value added by sector", "Agricultura": "Agriculture", "Industria": "Industry", "Servicios": "Services",
+  "Indicadores sintéticos de actividad": "Synthetic activity indicators", "Ministerio de Economía, % a/a de los índices CVEC": "Ministry of Economy, % y/y of SCA indices",
+  "Producción industrial y comercio minorista": "Industrial production and retail trade",
+  "% a/a. IPI corregido de estacionalidad y calendario; comercio a precios constantes": "% y/y. IPI seasonally and calendar adjusted; retail trade at constant prices",
+  "IPI": "IPI", "Comercio minorista": "Retail trade", "Comercio": "Retail", "Clima económico": "Economic climate",
+  "Sentimiento económico (CE) e indicador adelantado OCDE; índices, 100 = media de largo plazo": "Economic sentiment (EC) and OECD leading indicator; indices, 100 = long-term average",
+  "Sentimiento económico (CE)": "Economic sentiment (EC)", "CLI OCDE": "OECD CLI", "Confianza del consumidor": "Consumer confidence",
+  "Comisión Europea, saldo de respuestas": "European Commission, balance of replies", "Turismo internacional": "International tourism",
+  "Frontur y Egatur, % a/a": "Frontur and Egatur, % y/y", "Turistas": "Tourists", "Gasto": "Spending", "Consumo eléctrico": "Electricity consumption",
+  "REE, corregido de temperatura y calendario, % a/a": "REE, temperature and calendar adjusted, % y/y", "ANFAC, % a/a": "ANFAC, % y/y",
+  "Matriculaciones": "Registrations", "% de la población activa, datos originales": "% of labour force, unadjusted",
+  "Ocupados": "Employed", "Afiliados a la Seguridad Social": "Social Security registrations",
+  "Miles, media mensual corregida de estacionalidad y calendario": "Thousands, monthly average, seasonally and calendar adjusted",
+  "Afiliados CVEC": "Registrations SCA", "Miles, CVEC": "Thousands, SCA", "Paro registrado CVEC": "Registered unemployment SCA",
+  "Afiliación y paro registrado": "Social Security registrations and registered unemployment", "% a/a, series originales": "% y/y, unadjusted series",
+  "Afiliados": "Registrations", "Inflación general y subyacente": "Headline and core inflation",
+  "IPC, % a/a. El último dato puede ser el indicador adelantado": "CPI, % y/y. The latest figure may be the flash estimate",
+  "General": "Headline", "Subyacente": "Core", "IPCA": "HICP", "Componentes del IPC": "CPI components", "Energía": "Energy",
+  "Alimentos, bebidas y tabaco": "Food, beverages and tobacco", "Alimentos": "Food", "Diferencial de inflación con la UEM": "Inflation differential with the EMU",
+  "IPCA España − zona euro, pp": "HICP Spain − euro area, pp", "Diferencial": "Differential", "Precio de la vivienda": "House prices",
+  "Índice de precios de vivienda (IPV), % a/a": "House price index (HPI), % y/y", "IPV": "HPI",
+  "Deuda de las Administraciones Públicas": "General government debt", "Protocolo de déficit excesivo, % del PIB": "Excessive deficit procedure, % of GDP",
+  "Deuda PDE": "EDP debt", "Saldo de las Administraciones Públicas": "General government balance",
+  "Capacidad (+) / necesidad (−) de financiación, suma de 4 trimestres, % del PIB": "Net lending (+) / borrowing (−), 4-quarter sum, % of GDP",
+  "Saldo AAPP": "Government balance", "Saldo AC + CCAA + Seguridad Social, acumulado en el año": "Central govt + regions + Social Security balance, year to date",
+  "% del PIB, ejecución mensual (IGAE). Cada línea es un año": "% of GDP, monthly budget outturn (IGAE). Each line is one year",
+  "Balanza por cuenta corriente": "Current account", "Suma de 12 meses, % del PIB": "12-month sum, % of GDP", "Cuenta corriente": "Current account",
+  "Bienes y servicios": "Goods and services", "Ingresos por turismo": "Tourism receipts",
+  "Balanza de pagos, suma de 12 meses, millones de euros": "Balance of payments, 12-month sum, € million", "Ingresos turismo": "Tourism receipts",
+  "Rentabilidad de la deuda a 10 años": "10-year government bond yields", "Datos diarios, %": "Daily data, %", "España": "Spain", "Alemania": "Germany",
+  "Prima de riesgo": "Risk premium", "España − Alemania a 10 años, puntos básicos": "Spain − Germany 10-year spread, basis points",
+  "Tipos de interés": "Interest rates", "BCE facilidad de depósito (diario), Euríbor 12 meses y nuevas hipotecas (mensual), %": "ECB deposit facility (daily), 12-month Euribor and new mortgages (monthly), %",
+  "BCE depósito": "ECB deposit rate", "BCE": "ECB", "Euríbor 12m": "Euribor 12m", "Nuevas hipotecas (TEDR)": "New mortgages (NDER)", "Hipotecas": "Mortgages",
+  "Crédito y depósitos del sector privado residente": "Credit and deposits of the resident private sector", "Variación interanual del saldo vivo, %": "Year-on-year change in outstanding stock, %",
+  "Crédito": "Credit", "Depósitos": "Deposits", "Compraventa con hipoteca": "Mortgage lending for home purchases",
+  "Número de hipotecas sobre viviendas, % a/a": "Number of home mortgages, % y/y",
+  // units
+  "% a/a": "% y/y", "% PIB": "% GDP", "miles": "thousands", "índice": "index", "saldo": "balance", "M€": "€m", "mm€": "€bn", "pb": "bp",
+  // sources
+  "INE": "INE", "Banco de España": "Bank of Spain", "Ministerio de Economía (BDSICE)": "Ministry of Economy (BDSICE)",
+  "Banco de España vía Ministerio de Economía": "Bank of Spain via Ministry of Economy", "IGAE vía Ministerio de Economía; PIB INE": "IGAE via Ministry of Economy; GDP INE",
+  "Banco de España; PIB INE": "Bank of Spain; GDP INE",
+};
+const RULES = [
+  [/^Todas las series \((\d+)\)$/, 'All series ($1)'], [/^Seleccionadas \((\d+)\/(\d+)\)$/, 'Selected ($1/$2)'],
+
+  [/^Fuentes: INE, Banco de España, Seguridad Social, SEPE \(Ministerio de Trabajo\), Ministerio de Vivienda y Ministerio de Economía, Comercio y Empresa \(BDSICE\)\. Elaboración: BBVA Research\. Datos a /, "Sources: INE, Bank of Spain, Social Security, SEPE (Ministry of Labour), Ministry of Housing and Ministry of Economy, Trade and Business (BDSICE). Prepared by BBVA Research. Data as of "], [/SEPE \(Ministerio de Trabajo\)/g, "SEPE (Ministry of Labour)"], [/Seguridad Social/g, "Social Security"],
+  [/Ministerio de Vivienda y Agenda Urbana/g, "Ministry of Housing and Urban Agenda"], [/Consejo General del Notariado/g, "General Council of Notaries"], 
+  [/^Fuentes: INE, Banco de España y Ministerio de Economía, Comercio y Empresa \(BDSICE\)\. Elaboración: BBVA Research\. Datos a /, "Sources: INE, Bank of Spain and Ministry of Economy, Trade and Business (BDSICE). Prepared by BBVA Research. Data as of "],
+  [/^Fuente: BBVA Research a partir de /, "Source: BBVA Research based on "], [/^(Source: BBVA Research based on .*) y ([^ ]+.*)$/, "$1 and $2"],
+  [/Ministerio de Economía \(BDSICE\)/g, "Ministry of Economy (BDSICE)"],
+  [/Banco de España vía Ministerio de Economía/g, "Bank of Spain via Ministry of Economy"],
+  [/IGAE vía Ministerio de Economía; PIB INE/g, "IGAE via Ministry of Economy; GDP INE"],
+  [/Banco de España; PIB INE/g, "Bank of Spain; GDP INE"], [/Banco de España/g, "Bank of Spain"], [/Ministerio de Economía/g, "Ministry of Economy"],
+  [/^Datos actualizados: /, "Data updated: "], [/^Datos: /, "Data: "], [/^Datos a /, "Data as of "],
+  [/ · origen: datos incrustados en la página/, " · source: data embedded in the page"], [/ · origen: data\.json de este sitio/, " · source: this site's data.json"],
+  [/media de los trimestres publicados de /, "average of the published quarters of "], [/media de los meses publicados de /, "average of the published months of "],
+  [/último dato, suma de 4 trimestres/, "latest, 4-quarter sum"], [/último trimestre publicado/, "latest published quarter"],
+  [/^Seguimiento de las previsiones para /, "Tracking the forecasts for "], [/^Lo publicado hasta ahora en (\d{4}) frente a la previsión de BBVA Research$/, "Published so far in $1 against the BBVA Research forecast"], [/^Previsión (\d{4})$/, "Forecast $1"],
+  [/^Ir a /, "Go to "], [/\. Ir a /, ". Go to "], [/^Quitar /, "Remove "],
+  [/ \(p\)/g, " (f)"], [/ · avance/g, " · flash"], [/\bpb\b/g, "bp"], [/% a\/a/g, "% y/y"], [/% PIB/g, "% GDP"],
+  [/^(\d+) series$/, "$1 series"], [/^Barras apiladas( y línea)? · (.*)$/, (m,a,b)=>"Stacked bars"+(a?" and line":"")+" · "+b.split(" · ").map(p=>p.startsWith("las series de mayor frecuencia se promedian a ")?"higher-frequency series averaged to "+core(p.slice(46)):core(p)).join(" · ")], [/^Misma escala · (.*)$/, (m,a)=>"Same scale · "+a.split(" · ").map(core).join(" · ")], [/^Dos escalas · eje izquierdo: (.*) · eje derecho \(línea discontinua\): (.*)$/, (m,a,b)=>"Two scales · left axis: "+a.split(", ").map(core).join(", ")+" · right axis (dashed line): "+b.split(", ").map(core).join(", ")], [/^(.+) \(eje izq\.\)$/, (m,a)=>core(a)+" (left axis)"], [/^(.+) \(eje dcho\.\)$/, (m,a)=>core(a)+" (right axis)"], [/^Cambiar eje de (.+)$/, (m,a)=>"Change axis of "+core(a)], [/^(.+) frente a (.+)$/, (m,a,b)=>core(a)+" vs "+core(b)], [/^X: (.+?) · Y: (.+?) · (\w+) · (.*)$/, (m,a,b,c,d)=>"X: "+core(a)+" · Y: "+core(b)+" · "+core(c)+" · "+d.replace(/T(\d) /g,"Q$1 ").replace(" · la serie de mayor frecuencia se promedia a trimestral"," · higher-frequency series averaged to quarterly").replace(" · la serie de mayor frecuencia se promedia a mensual"," · higher-frequency series averaged to monthly")], [/ % t\/t · /, " % q/q · "], [/^% a\/a$/, "% y/y"],
+];
+
 let LANG='es'; try{ LANG=new URLSearchParams(location.search).get('lang')||localStorage.getItem('mme-lang')||'es'; }catch(e){}
 const isEN=()=>LANG==='en';
 function rules(x){ for(const [re,rep] of RULES) x=x.replace(re,rep); return x; }
-const TABEN={resumen:'overview',explorador:'explorer',actividad:'activity',empleo:'employment',precios:'prices',publico:'public sector',financiero:'financial'};
+const TABEN={resumen:'overview',explorador:'explorer',pizarra:'blackboard',actividad:'activity',empleo:'employment',precios:'prices',publico:'public sector',financiero:'financial',credito:'credit and deposits'};
 function core(x){ if(EN[x]!=null) return EN[x]; let m;
   if((m=x.match(/^(.+) frente a (.+)$/))) return core(m[1])+' vs '+core(m[2]);
   if((m=x.match(/^Quitar (.+)$/))) return 'Remove '+core(m[1]);
@@ -237,7 +498,7 @@ const MES = new Proxy([],{get:(_,i)=>(isEN()?MES_EN:MES_ES)[i]});
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const COLORS = ['--s1','--s2','--s3','--s4'];
 const fmtN = (v,d=1) => v==null||isNaN(v)?'–':v.toLocaleString(isEN()?'en-GB':'es-ES',{minimumFractionDigits:d,maximumFractionDigits:d,useGrouping:'always'});
-function decimals(s){ const u=s.unit; if(u==='miles'){ const L=s.data[s.data.length-1]; return L&&Math.abs(L[1])<100?1:0; } if(u==='pb'||u==='M€'||u==='€/m²') return 0; if(u==='índice') return 1; if(s.freq==='D'||['%'].includes(u)&&s.block==='financiero') return 2; return 1; }
+function decimals(s){ if(s.code==='D_DNBAF172') return 3; const u=s.unit; if(u==='miles'||u==='mm€'){ const L=s.data[s.data.length-1]; return L&&Math.abs(L[1])<100?1:0; } if(u==='pb'||u==='M€'||u==='€/m²') return 0; if(u==='índice') return 1; if(s.freq==='D'||['%'].includes(u)&&s.block==='financiero') return 2; return 1; }
 function fmtDate(d,freq){ const y=d.slice(0,4), m=+d.slice(5,7);
   if(freq==='Q') return (isEN()?'Q':'T')+((m-1)/3+1)+' '+y; if(freq==='D') return (+d.slice(8,10))+' '+MES[m-1]+' '+y; if(freq==='A') return y; return MES[m-1]+' '+y; }
 function unitLabel(u){ return {'% a/a':'%','% PIB':'% PIB','pp':'pp','pb':'pb','M€':'M€','miles':'miles','índice':'','saldo':'','%':'%'}[u] ?? u; }
@@ -344,7 +605,7 @@ function srcLine(ids){ const g={}; ids.forEach(id=>{ const s=S()[id]; if(!s) ret
 const SRC = id => { const s=S()[id]; if(!s) return ''; return `${s.source} · ${s.code}`; };
 const FIGS = {
   actividad: [
-    {t:'PIB y aportaciones al crecimiento', sub:'Variación interanual del PIB (línea) y aportaciones de la demanda nacional y externa (barras), pp. CVEC', wide:true,
+    {t:'PIB y aportaciones al crecimiento', sub:'Variación interanual del PIB (línea) y aportaciones de la demanda nacional y externa (barras), pp. CVEC',
      bars:[{id:'ap_dn',name:'Demanda nacional',color:'--s1'},{id:'ap_de',name:'Demanda externa',color:'--s2'}], lines:[{id:'pib_yoy',name:'PIB, % a/a',color:'--s3'}], stack:true},
     {t:'PIB · variación trimestral', sub:'% t/t, datos corregidos de estacionalidad y calendario', bars:[{id:'pib_qoq',name:'PIB t/t',color:'--s1'}]},
     {t:'Demanda interna', sub:'% a/a, índices de volumen encadenados, CVEC', lines:[{id:'ch_yoy',name:'Consumo hogares',short:'Hogares',color:'--s1'},{id:'cp_yoy',name:'Consumo AAPP',short:'AAPP',color:'--s2'},{id:'fbcf_yoy',name:'Inversión (FBCF)',short:'FBCF',color:'--s3'}], endLabels:true},
@@ -363,13 +624,15 @@ const FIGS = {
     {t:'Empleo: EPA y afiliación', sub:'% a/a. Ocupados EPA (barras) y afiliados medios a la Seguridad Social, media trimestral (línea)', bars:[{id:'ocup_epa_yoy',name:'Ocupados EPA',color:'--qbar'}], lines:[{id:'afil_q_yoy',name:'Afiliados Seguridad Social',short:'Afiliados',color:'--s1'}], zero:true},
     {t:'Afiliados a la Seguridad Social', sub:'Miles, media mensual desestacionalizada (Seguridad Social)', lines:[{id:'afil_sa',name:'Afiliados desestacionalizados',color:'--s1'}]},
     {t:'Paro registrado', sub:'Miles, datos originales (SEPE)', lines:[{id:'paro_reg',name:'Paro registrado',color:'--s2'}]},
-    {t:'Afiliación y paro registrado', sub:'% a/a, series originales', wide:true, lines:[{id:'afil_yoy',name:'Afiliados',color:'--s1'},{id:'paro_reg_yoy',name:'Paro registrado',color:'--s2'}], endLabels:true, zero:true},
+    {t:'Afiliación y paro registrado', sub:'% a/a, series originales', lines:[{id:'afil_yoy',name:'Afiliados',color:'--s1'},{id:'paro_reg_yoy',name:'Paro registrado',color:'--s2'}], endLabels:true, zero:true},
   ],
   precios: [
-    {t:'Inflación general y subyacente', sub:'IPC, % a/a. El último dato puede ser el indicador adelantado', wide:true, lines:[{id:'ipc',name:'IPC general',short:'General',color:'--s1'},{id:'ipc_sub',name:'IPC subyacente',short:'Subyacente',color:'--s2'},{id:'ipca',name:'IPCA',short:'IPCA',color:'--s3'}], endLabels:true},
+    {t:'Inflación general y subyacente', sub:'IPC, % a/a. El último dato puede ser el indicador adelantado', lines:[{id:'ipc',name:'IPC general',short:'General',color:'--s1'},{id:'ipc_sub',name:'IPC subyacente',short:'Subyacente',color:'--s2'},{id:'ipca',name:'IPCA',short:'IPCA',color:'--s3'}], endLabels:true},
     {t:'Componentes del IPC', sub:'% a/a', lines:[{id:'ipc_ene',name:'Energía',color:'--s2'},{id:'ipc_ali',name:'Alimentos, bebidas y tabaco',short:'Alimentos',color:'--s3'},{id:'ipc_ser',name:'Servicios',color:'--s1'}], endLabels:true},
     {t:'Diferencial de inflación con la UEM', sub:'IPCA España − zona euro, pp', bars:[{id:'dif_uem',name:'Diferencial',color:'--s4'}]},
     {t:'Precio de la vivienda', sub:'Índice de precios de vivienda (IPV), % a/a', bars:[{id:'ipv',name:'IPV',color:'--s1'}]},
+    {t:'Salarios y costes laborales', sub:'% a/a. Coste por trabajador y mes (ETCL, trimestral) e incremento pactado en convenios (mensual, acumulado en el año)', lines:[{id:'sal_etcl',name:'Coste salarial total',short:'Salarial total',color:'--s1'},{id:'sal_ord',name:'Coste salarial ordinario',short:'Salarial ordinario',color:'--s3'},{id:'clab_etcl',name:'Coste laboral total',short:'Laboral total',color:'--s4'},{id:'sal_conv',name:'Convenios',color:'--s2'}], endLabels:true},
+    {t:'Salarios frente a inflación', sub:'% a/a. Coste salarial ordinario por trabajador (ETCL) e IPC general', lines:[{id:'sal_ord',name:'Coste salarial ordinario',short:'Salarios',color:'--s1'},{id:'ipc',name:'IPC general',short:'IPC',color:'--s2'}], endLabels:true, zero:true},
   ],
   publico: [
     {t:'Deuda de las Administraciones Públicas', sub:'Protocolo de déficit excesivo, % del PIB', lines:[{id:'deuda',name:'Deuda PDE',color:'--s1'}]},
@@ -379,10 +642,10 @@ const FIGS = {
     {t:'Ingresos por turismo', sub:'Balanza de pagos, suma de 12 meses, millones de euros', lines:[{id:'tur_ing_12m',name:'Ingresos turismo',color:'--s2'}]},
   ],
   vivienda: [
-    {t:'Precio de la vivienda', sub:'% a/a. Índice de precios de vivienda (INE) y valor tasado de la vivienda libre (Ministerio de Vivienda)', wide:true, lines:[{id:'ipv',name:'IPV (INE)',color:'--s1'},{id:'viv_tasado_yoy',name:'Valor tasado',color:'--s2'}], endLabels:true},
+    {t:'Precio de la vivienda', sub:'% a/a. Índice de precios de vivienda (INE) y valor tasado de la vivienda libre (Ministerio de Vivienda)', lines:[{id:'ipv',name:'IPV (INE)',color:'--s1'},{id:'viv_tasado_yoy',name:'Valor tasado',color:'--s2'}], endLabels:true},
     {t:'Valor tasado de la vivienda libre', sub:'€/m², trimestral', lines:[{id:'viv_tasado',name:'Valor tasado',color:'--s2'}]},
     {t:'Compraventa de viviendas', sub:'Miles de operaciones, suma de 12 meses (Notariado)', lines:[{id:'viv_compraventas',name:'Compraventas',color:'--s1'}]},
-    {t:'Actividad constructora residencial', sub:'Miles de viviendas, suma de 12 meses', wide:true, lines:[{id:'viv_visados',name:'Visados de obra nueva',short:'Visados',color:'--s1'},{id:'viv_iniciadas',name:'Iniciadas',color:'--s3'},{id:'viv_terminadas',name:'Terminadas',color:'--s2'}], endLabels:true},
+    {t:'Actividad constructora residencial', sub:'Miles de viviendas, suma de 12 meses', lines:[{id:'viv_visados',name:'Visados de obra nueva',short:'Visados',color:'--s1'},{id:'viv_iniciadas',name:'Iniciadas',color:'--s3'},{id:'viv_terminadas',name:'Terminadas',color:'--s2'}], endLabels:true},
     {t:'Visados y compraventas', sub:'% a/a de la suma de 12 meses', lines:[{id:'viv_visados_yoy',name:'Visados de obra nueva',short:'Visados',color:'--s1'},{id:'viv_compraventas_yoy',name:'Compraventas',color:'--s2'}], endLabels:true, zero:true},
     {t:'Vivienda protegida', sub:'Calificaciones definitivas, miles, suma de 12 meses', lines:[{id:'viv_protegida',name:'Calificaciones definitivas',color:'--s4'}]},
     {t:'Coste de construcción residencial', sub:'Índice de costes del Ministerio de Vivienda, % a/a', bars:[{id:'viv_coste',name:'Coste de construcción',color:'--s3'}]},
@@ -392,17 +655,27 @@ const FIGS = {
   financiero: [
     {t:'Rentabilidad de la deuda a 10 años', sub:'Datos diarios, %', lines:[{id:'bono_es',name:'España',color:'--s1'},{id:'bono_de',name:'Alemania',color:'--s4'}], endLabels:true},
     {t:'Prima de riesgo', sub:'España − Alemania a 10 años, puntos básicos', lines:[{id:'prima',name:'Prima de riesgo',color:'--s2'}]},
-    {t:'Tipos de interés', sub:'BCE facilidad de depósito (diario), Euríbor 12 meses y nuevas hipotecas (mensual), %', wide:true, lines:[{id:'bce_dfr',name:'BCE depósito',short:'BCE',color:'--s4'},{id:'euribor12',name:'Euríbor 12m',color:'--s1'},{id:'tipo_viv',name:'Nuevas hipotecas (TEDR)',short:'Hipotecas',color:'--s2'}], endLabels:true},
+    {t:'Tipos de interés', sub:'BCE y Euríbor a 12 meses (diarios); nuevas hipotecas (mensual), %', lines:[{id:'bce_dfr',name:'BCE depósito',short:'BCE',color:'--s4'},{id:'euribor12_daily',name:'Euríbor 12m · diario',color:'--s1'},{id:'tipo_viv',name:'Nuevas hipotecas (TEDR)',short:'Hipotecas',color:'--s2'}], endLabels:true},
     {t:'Crédito y depósitos del sector privado residente', sub:'Variación interanual del saldo vivo, %', lines:[{id:'credito_osr',name:'Crédito',color:'--s1'},{id:'depositos_osr',name:'Depósitos',color:'--s3'}], endLabels:true, zero:true},
     {t:'Compraventa con hipoteca', sub:'Número de hipotecas sobre viviendas, % a/a', bars:[{id:'hipotecas',name:'Hipotecas',color:'--s3'}]},
   ],
+  credito: [
+    {t:'Crédito y depósitos del sector privado', sub:'Saldo vivo de otros sectores residentes, miles de millones de euros', lines:[{id:'dep_saldo',name:'Depósitos',color:'--s3'},{id:'cred_saldo',name:'Crédito',color:'--s1'}], endLabels:true},
+    {t:'Crédito por finalidad', sub:'Variación interanual del saldo vivo, %, trimestral', lines:[{id:'cred_prod_yoy',name:'Actividades productivas',short:'Empresas',color:'--s1'},{id:'viv_credito',name:'Vivienda',color:'--s2'},{id:'cred_cons_yoy',name:'Consumo',color:'--s3'}], endLabels:true, zero:true},
+    {t:'Depósitos por modalidad', sub:'Variación interanual del saldo vivo, %', lines:[{id:'depositos_osr',name:'Total',color:'--s4'},{id:'dep_vista_yoy',name:'A la vista',color:'--s1'},{id:'dep_plazo_yoy',name:'A plazo y preaviso',short:'A plazo',color:'--s3'}], endLabels:true, zero:true},
+    {t:'Nuevas operaciones de crédito', sub:'Importe acumulado en 12 meses, % a/a', lines:[{id:'nop_viv_yoy',name:'Vivienda',color:'--s2'},{id:'nop_cons_yoy',name:'Consumo',color:'--s3'},{id:'nop_snf_yoy',name:'Empresas',color:'--s1'}], endLabels:true, zero:true},
+    {t:'Tipos de interés del nuevo crédito', sub:'TEDR de nuevas operaciones y Euríbor a 12 meses, %', lines:[{id:'tipo_cons',name:'Consumo',color:'--s3'},{id:'tipo_snf',name:'Empresas',color:'--s1'},{id:'tipo_viv',name:'Vivienda',color:'--s2'},{id:'euribor12',name:'Euríbor 12m',color:'--s4'}], endLabels:true},
+    {t:'Tipos de interés de los depósitos', sub:'TEDR de nuevas operaciones, %', lines:[{id:'tipo_dep_snf',name:'Plazo, empresas',short:'Plazo empresas',color:'--s1'},{id:'tipo_dep_hog',name:'Plazo, hogares',short:'Plazo hogares',color:'--s3'},{id:'tipo_dep_vista',name:'A la vista, hogares',short:'Vista hogares',color:'--s4'}], endLabels:true},
+    {t:'Ratio de dudosidad', sub:'Créditos dudosos sobre el total del crédito a otros sectores residentes, %', lines:[{id:'cred_dudosidad',name:'Dudosidad',color:'--s2'}]},
+    {t:'Dudosidad por finalidad', sub:'Créditos dudosos sobre el saldo de cada finalidad, %, trimestral', lines:[{id:'dud_prod',name:'Actividades productivas',short:'Empresas',color:'--s1'},{id:'dud_viv',name:'Vivienda',color:'--s2'},{id:'dud_cons',name:'Consumo',color:'--s3'}], endLabels:true},
+  ],
 };
-const TABS=[{k:'resumen',l:'Resumen'},{k:'explorador',l:'Explorador de series'},{k:'actividad',l:'Actividad'},{k:'empleo',l:'Empleo'},{k:'precios',l:'Precios'},{k:'publico',l:'Sector público y exterior'},{k:'financiero',l:'Financiero'},{k:'vivienda',l:'Vivienda'},{k:'previsiones',l:'Previsiones BBVA Research'},{k:'tablas',l:'Tablas'},{k:'fuentes',l:'Fuentes y método'}];
-const TITLES={vivienda:'Vivienda',actividad:'Actividad y demanda',empleo:'Mercado laboral',precios:'Precios',publico:'Sector público y exterior',financiero:'Condiciones financieras'};
+const TABS=[{k:'resumen',l:'Resumen'},{k:'explorador',l:'Explorador de series'},{k:'pizarra',l:'Pizarra de series'},{k:'actividad',l:'Actividad'},{k:'empleo',l:'Empleo'},{k:'precios',l:'Precios'},{k:'publico',l:'Sector público y exterior'},{k:'financiero',l:'Financiero'},{k:'credito',l:'Créditos y depósitos'},{k:'vivienda',l:'Vivienda'},{k:'previsiones',l:'Previsiones BBVA Research'},{k:'tablas',l:'Tablas'},{k:'fuentes',l:'Fuentes y método'}];
+const TITLES={vivienda:'Vivienda',actividad:'Actividad y demanda',empleo:'Mercado laboral',precios:'Precios y salarios',publico:'Sector público y exterior',financiero:'Condiciones financieras',credito:'Créditos y depósitos'};
 
 /* KPI tiles: polarity +1 = up is favourable, -1 = up is unfavourable, 0 = no judgement */
 const KPIS=[['pib_yoy',1,'actividad'],['pib_qoq',1,'actividad'],['paro_epa',-1,'empleo'],['afil_yoy',1,'empleo'],['ipc',-1,'precios'],['ipc_sub',-1,'precios'],
-  ['deuda',-1,'publico'],['deficit_4q',1,'publico'],['cc_pib',1,'publico'],['prima',-1,'financiero'],['euribor12',0,'financiero'],['esi',1,'actividad']];
+  ['deuda',-1,'publico'],['deficit_4q',1,'publico'],['cc_pib',1,'publico'],['prima',-1,'financiero'],['euribor12_daily',0,'financiero'],['esi',1,'actividad']];
 
 /* -------------------------------------------------------------- views */
 const panel=document.getElementById('panel');
@@ -431,16 +704,13 @@ function kpiTile([id,pol,tab]){ const s=S()[id]; if(!s) return ''; const L=lates
 const SUMMARY=[
  ['Actividad',['pib_qoq','pib_yoy','ch_yoy','fbcf_yoy','x_yoy','ipi_yoy','icm_yoy','isa_ser','esi','conf_cons','turistas']],
  ['Mercado laboral',['paro_epa','ocup_epa','ocup_epa_yoy','afil_sa','afil_yoy','afil_q_yoy','paro_reg','paro_reg_yoy']],
- ['Precios',['ipc','ipc_sub','ipca','ipc_ene','ipc_ser','dif_uem','ipv']],
- ['Vivienda',['ipv','viv_tasado','viv_tasado_yoy','viv_compraventas','viv_compraventas_yoy','viv_visados','viv_iniciadas','viv_coste','viv_credito']],
+ ['Precios y salarios',['ipc','ipc_sub','ipca','ipc_ene','ipc_ser','dif_uem','ipv','sal_conv','sal_etcl','sal_ord','clab_etcl']],
+ ['Vivienda',['ipv','viv_tasado','viv_tasado_yoy','viv_compraventas','viv_compraventas_yoy','viv_compr_reg','viv_compr_reg_yoy','viv_visados','viv_iniciadas','viv_coste','viv_credito']],
  ['Sector público',['deuda','deficit_4q','deficit_m']],
  ['Sector exterior',['cc_pib','bys_pib','tur_ing_12m']],
  ['Financiero',['bce_dfr','euribor12','bono_es','prima','tipo_viv','credito_osr','depositos_osr','hipotecas']],
 ];
-function summaryTable(){ let h=`<div class="tblwrap"><table><thead><tr><th scope="col">Indicador</th><th scope="col">Último</th><th scope="col">Periodo</th><th scope="col">Anterior</th><th scope="col">Hace un año</th><th scope="col" style="text-align:left">Fuente</th></tr></thead><tbody>`;
-  SUMMARY.forEach(([g,ids])=>{ h+=`<tr class="grp"><td colspan="6">${g}</td></tr>`; ids.forEach(id=>{ const s=S()[id]; if(!s) return; const L=latest(id), P=prevObs(id,s.freq==='D'?5:1), Y=yearAgo(id), d=decimals(s);
-    h+=`<tr><td>${esc(s.label)}<span class="u">${esc(s.unit)}</span></td><td><b>${fmtN(L[1],d)}</b></td><td>${fmtDate(L[0],s.freq)}${L[2]?' <span class="chip flash">avance</span>':''}</td><td>${P?fmtN(P[1],d):'–'}</td><td>${Y?fmtN(Y[1],d):'–'}</td><td class="src">${esc(s.source)}</td></tr>`; }); });
-  return h+'</tbody></table></div>'; }
+function summaryTable(){ return periodTable('M',3,SUMMARY.flatMap(([g,ids])=>['#'+g,...ids]),3,4); }
 
 
 const f1=(v,d=1)=>fmtN(v,d);
@@ -470,9 +740,9 @@ function viewPrevisiones(){
 }
 
 function autoSub(s){ const adj=/CVEC|ajustados de estacionalidad|desestacionaliz|corregido de temperatura/i.test((s.label||'')+' '+(s.original_name||''))||/\.d$/.test(s.code||'');
-  if(isEN()){ const u={'% a/a':'% change on a year earlier','%':'%','% PIB':'% of GDP','pp':'percentage points','pb':'basis points','M€':'€ million','miles':'thousands','índice':'index','saldo':'balance of replies'}[s.unit]||s.unit;
+  if(isEN()){ const u={'% a/a':'% change on a year earlier','%':'%','% PIB':'% of GDP','pp':'percentage points','pb':'basis points','M€':'€ million','mm€':'€ billion','miles':'thousands','índice':'index','saldo':'balance of replies'}[s.unit]||s.unit;
     return [u, adj?'seasonally and calendar adjusted':null, {M:'monthly',Q:'quarterly',D:'daily'}[s.freq]].filter(Boolean).join(' · '); }
-  const u={'% a/a':'% sobre un año antes','%':'%','% PIB':'% del PIB','pp':'puntos porcentuales','pb':'puntos básicos','M€':'millones de euros','miles':'miles','índice':'índice','saldo':'saldo de respuestas'}[s.unit]||s.unit;
+  const u={'% a/a':'% sobre un año antes','%':'%','% PIB':'% del PIB','pp':'puntos porcentuales','pb':'puntos básicos','M€':'millones de euros','mm€':'miles de millones de euros','miles':'miles','índice':'índice','saldo':'saldo de respuestas'}[s.unit]||s.unit;
   return [u, adj?'corregido de estacionalidad y calendario':null, {M:'mensual',Q:'trimestral',D:'diario'}[s.freq]].filter(Boolean).join(' · '); }
 function tblBlock(title, sub, inner, src, actions=''){
   return `<figure class="fig tblfig" style="margin:0"><div class="tblhead2"><div><h3>${title}</h3><div class="sub">${sub}</div></div>${actions}</div>${inner}<figcaption class="src">${src}</figcaption></figure>`; }
@@ -487,7 +757,7 @@ function chg(id,pol){ const s=S()[id], L=latest(id), P=prevObs(id, s.freq==='D'?
   if(diff!=null && Math.abs(diff)>=thr){ word=(diff>0?'▲ ':'▼ ')+fmtN(Math.abs(diff), s.unit==='pb'?0:(dec>1?2:1))+(s.unit==='pb'?' pb':['%','% a/a','% PIB','pp'].includes(s.unit)?' pp':''); if(pol) cls=(diff>0)===(pol>0)?'good':'bad'; }
   const vs = s.freq==='D'?'vs. hace una semana':s.freq==='Q'?'vs. trimestre anterior':'vs. mes anterior';
   return `<span class="chip ${cls}" title="${vs}">${word}</span>`; }
-const POL={pib_yoy:1,pib_qoq:1,dn_yoy:1,ch_yoy:1,cp_yoy:0,fbcf_yoy:1,x_yoy:1,m_yoy:0,ap_dn:0,ap_de:0,vab_agr:1,vab_ind:1,vab_con:1,vab_ser:1,
+const POL={sal_etcl:0,sal_ord:0,clab_etcl:0,sal_conv:0,cred_saldo:0,cred_dudosidad:-1,cred_prod_yoy:0,cred_cons_yoy:0,dep_saldo:0,dep_vista_yoy:0,dep_plazo_yoy:0,nop_viv:0,nop_viv_yoy:0,nop_cons:0,nop_cons_yoy:0,nop_snf:0,nop_snf_yoy:0,tipo_cons:0,tipo_snf:0,tipo_viv_saldo:0,tipo_dep_hog:0,tipo_dep_snf:0,tipo_dep_vista:0,dud_prod:-1,dud_viv:-1,dud_cons:-1,pib_yoy:1,pib_qoq:1,dn_yoy:1,ch_yoy:1,cp_yoy:0,fbcf_yoy:1,x_yoy:1,m_yoy:0,ap_dn:0,ap_de:0,vab_agr:1,vab_ind:1,vab_con:1,vab_ser:1,
   ipi_yoy:1,icm_yoy:1,isa_ind:1,isa_ser:1,isa_con:1,esi:1,conf_cons:1,cli:1,matric:1,elec:1,turistas:1,gasto_tur:1,hipotecas:1,
   paro_epa:-1,ocup_epa:1,ocup_epa_yoy:1,afil_sa:1,afil_yoy:1,afil_q_yoy:1,paro_reg:-1,paro_reg_yoy:-1,ipc:-1,ipc_sub:-1,ipc_ene:-1,ipc_ali:-1,ipc_ser:-1,ipca:-1,dif_uem:-1,ipv:0,
   viv_visados:1,viv_visados_yoy:1,viv_iniciadas:1,viv_terminadas:1,viv_protegida:1,viv_compraventas:1,viv_compraventas_yoy:1,viv_compr_reg:1,viv_compr_reg_yoy:1,viv_tasado:0,viv_tasado_yoy:0,viv_coste:-1,viv_credito:0,
@@ -511,7 +781,7 @@ function ovDraw(h,id,extra){ const s=S()[id]; let cfg;
 function viewResumen(){
   panel.innerHTML=`<div class="sechead"><div><p class="kicker">Datos a ${esc(DATA.meta.refreshed.slice(0,10))}</p><h2>Resumen</h2></div>${rangeCtl()}</div>
    <div class="grid3">${GALLERY.map(([id,pol,tab,extra],i)=>ovCard(id,i,'data-g',isGDP(id)?null:extra)).join('')}</div>
-   <div style="margin-top:28px">${tblBlock('Cuadro de indicadores','Último dato publicado, dato anterior y hace un año',summaryTable(),SRC_ALL)}</div>`;
+   <div style="margin-top:28px">${(()=>{const T=summaryTable(); return tblBlock('Cuadro de indicadores','Últimos 3 años, 4 trimestres y 3 meses · anual y trimestral: media del periodo o crecimiento de la media, según el indicador',T.html,SRC_ALL);})()}</div>`;
   bindRange();
   const draw=()=>GALLERY.forEach(([id,pol,tab,extra],i)=>{ const h=panel.querySelector(`.chart[data-g="${i}"]`); if(h) ovDraw(h,id,isGDP(id)?null:extra); });
   draw(); observe(draw);
@@ -520,7 +790,7 @@ function viewBlock(key){
   panel.innerHTML=`<div class="sechead"><h2>${esc(TITLES[key])}</h2>${rangeCtl()}</div><div class="grid">${FIGS[key].map((f,i)=>`
     <figure class="fig ${f.wide?'wide':''}" style="margin:0"><div><h3>${esc(f.t)}</h3><div class="sub">${esc(f.sub)}</div></div>
     <div class="lg" data-i="${i}"></div><div class="chart" data-i="${i}"></div>
-    <figcaption class="src">Fuente: ${srcLine([...(f.bars||[]),...(f.lines||[])].map(s=>s.id).concat(f.overlay?[f.overlay]:[]))}</figcaption></figure>`).join('')}</div>`;
+    <figcaption class="src">Fuente: ${srcLine([...(f.bars||[]),...(f.lines||[])].map(s=>s.id).concat(f.overlay?[f.overlay]:[]))}</figcaption></figure>`).join('')}</div>${(()=>{ const T=key==='credito'?TABLES.find(t=>t.k===key):null; if(!T) return ''; const b=T.make(); return `<div style="margin-top:36px">${tblBlock(esc(T.t),esc(T.sub),b.html,esc(T.src))}</div>`; })()}`;
   bindRange();
   const draw=()=>FIGS[key].forEach((f,i)=>{ const host=panel.querySelector(`.chart[data-i="${i}"]`), lg=panel.querySelector(`.lg[data-i="${i}"]`); if(!host) return;
     if(f.overlay){ const it=drawYearOverlay(host,f.overlay); lg.innerHTML=legendHTML(it); return; }
@@ -544,7 +814,7 @@ function periodTable(freq,n,spec,nAnn=0,nQ=0){ const ids=specIds(spec).filter(id
   let h=`<div class="tblwrap"><table class="fc2"><thead>${head}<tr><th scope="col">Indicador</th>${years.map((y,i)=>`<th scope="col" class="${last(years,i)}">${y}</th>`).join('')}${quarters.map((q,i)=>`<th scope="col" class="${last(quarters,i)}">${fmtDate(q,'Q')}</th>`).join('')}${dates.map(d=>`<th scope="col">${fmtDate(d,freq)}</th>`).join('')}</tr></thead><tbody>`;
   const rows=[[L10('Indicador'),...years,...quarters.map(q=>fmtDate(q,'Q')),...dates.map(d=>fmtDate(d,freq))]];
   spec.forEach(x=>{ if(typeof x==='string'&&x[0]==='#'){ h+=`<tr class="grp"><td colspan="${ncol}">${esc(x.slice(1))}</td></tr>`; return; }
-    const [id,lv]=Array.isArray(x)?x:[x,0]; const s=S()[id]; if(!s) return; const m=s.freq===freq?Object.fromEntries(s.data.map(o=>[o[0],o])):{}; const d=decimals(s); const A=s.annual||{}, Qd=qOf(id);
+    const [id,lv]=Array.isArray(x)?x:[x,0]; const s=S()[id]; if(!s) return; const m=s.freq===freq?Object.fromEntries(s.data.map(o=>[o[0],o])):(freq==='M'&&s.monthly?Object.fromEntries(Object.entries(s.monthly).map(([k,v])=>[k,[k,v,0]])):{}); const d=decimals(s); const A=s.annual||{}, Qd=qOf(id);
     h+=`<tr><td class="${lv===1?'l1':lv===2?'l2':''}">${esc(s.label)}<span class="u">${esc(s.unit)}</span></td>${years.map((y,i)=>`<td class="${last(years,i)}">${A[y]!=null?fmtN(A[y],d):'–'}</td>`).join('')}${quarters.map((q,i)=>`<td class="${last(quarters,i)}">${Qd[q]!=null?fmtN(Qd[q],d):'–'}</td>`).join('')}${dates.map(x=>`<td>${m[x]?fmtN(m[x][1],d)+(m[x][2]?'*':''):'–'}</td>`).join('')}</tr>`;
     rows.push([L10(s.label)+' ('+L10(s.unit)+')',...years.map(y=>nCSV(A[y])),...quarters.map(q=>nCSV(Qd[q])),...dates.map(x=>m[x]?nCSV(m[x][1]):'')]); });
   return {html:h+'</tbody></table></div>', csv:csvOf(rows)}; }
@@ -560,12 +830,14 @@ const TABLES=[
    make:()=>periodTable('Q',8,['pib_qoq','pib_yoy','#Demanda nacional','dn_yoy',['ch_yoy',1],['cp_yoy',1],['fbcf_yoy',1],'#Sector exterior','x_yoy','m_yoy','#Aportaciones al crecimiento del PIB','ap_dn','ap_de'],3)},
   {k:'oferta',t:'PIB: oferta',sub:'Valor añadido bruto por ramas, % a/a · volumen, corregido de estacionalidad y calendario · últimos 3 años y 8 trimestres · anual: crecimiento de la media anual',src:'Fuente: BBVA Research a partir de INE',
    make:()=>periodTable('Q',8,['pib_yoy','#Valor añadido bruto',['vab_agr',1],['vab_ind',1],['vab_con',1],['vab_ser',1]],3)},
+  {k:'credito',t:'Créditos y depósitos',sub:'3 años, 4 trimestres y 3 últimos meses · saldos y dudosidad: final del periodo; tasas, sobre la media del periodo; tipos de interés, media · crédito por finalidad y dudosidad por finalidad, trimestral',src:'Fuente: BBVA Research a partir de Banco de España',
+   make:()=>periodTable('M',3,['#Saldos vivos','cred_saldo','credito_osr','dep_saldo','depositos_osr',['dep_vista_yoy',1],['dep_plazo_yoy',1],'#Crédito por finalidad (% a/a)','cred_prod_yoy','viv_credito','cred_cons_yoy','#Nuevas operaciones (12 meses)','nop_viv','nop_viv_yoy','nop_cons','nop_cons_yoy','nop_snf','nop_snf_yoy','#Tipos de interés (TEDR)','tipo_viv','tipo_viv_saldo','tipo_cons','tipo_snf','tipo_dep_hog','tipo_dep_snf','tipo_dep_vista','#Calidad del crédito','cred_dudosidad','dud_prod','dud_viv','dud_cons'],3,4)},
   {k:'vivienda',t:'Indicadores de vivienda',sub:'3 años, 4 trimestres y 3 últimos meses · las series trimestrales (precios y crédito) no tienen columnas mensuales · años y trimestres: sumas de 12 meses, último mes del periodo; tasas, sobre la media del periodo; índices y tipos, media',src:'Fuente: BBVA Research a partir de INE, Ministerio de Vivienda y Agenda Urbana, Consejo General del Notariado y Banco de España',
    make:()=>periodTable('M',3,['#Precios','ipv','viv_tasado','viv_tasado_yoy','#Demanda','viv_compraventas','viv_compraventas_yoy','viv_compr_reg','viv_compr_reg_yoy','hipotecas','#Oferta','viv_visados','viv_visados_yoy','viv_iniciadas','viv_terminadas','viv_protegida','viv_coste','#Financiación','tipo_viv','viv_credito'],3,4)},
   {k:'coyuntura',t:'Indicadores coyunturales',sub:'% a/a salvo indicación · 3 años, 4 trimestres y 3 últimos meses · * dato de avance · años y trimestres: tasas calculadas sobre la media del periodo o media de los meses (índices, saldos y niveles)',src:'Fuente: BBVA Research a partir de INE, Seguridad Social, SEPE, Ministerio de Economía (BDSICE), Comisión Europea y OCDE',
    make:()=>periodTable('M',3,['#Actividad','ipi_yoy','icm_yoy','isa_ind','isa_ser','isa_con','elec','matric','#Confianza','esi','conf_cons','cli','#Turismo','turistas','gasto_tur','#Mercado laboral','afil_sa','afil_yoy','paro_reg','paro_reg_yoy'],3,4)},
-  {k:'precios',t:'Precios, sector exterior y financiación',sub:'3 años, 4 trimestres y 3 últimos meses · * dato de avance · años y trimestres: media de los meses; sumas de 12 meses y saldos acumulados, último mes del periodo',src:'Fuente: BBVA Research a partir de INE, Banco de España y Ministerio de Economía (BDSICE)',
-   make:()=>periodTable('M',3,['#Precios','ipc',['ipc_sub',1],['ipc_ene',1],['ipc_ali',1],['ipc_ser',1],'ipca','dif_uem','#Sector público y exterior','deficit_m','cc_pib','bys_pib','tur_ing_12m','#Crédito y tipos','euribor12','credito_osr','depositos_osr'],3,4)},
+  {k:'precios',t:'Precios, salarios, sector exterior y financiación',sub:'3 años, 4 trimestres y 3 últimos meses · * dato de avance · años y trimestres: media de los meses; sumas de 12 meses y saldos acumulados, último mes del periodo',src:'Fuente: BBVA Research a partir de INE, Ministerio de Trabajo y Economía Social, Banco de España y Ministerio de Economía (BDSICE)',
+   make:()=>periodTable('M',3,['#Precios','ipc',['ipc_sub',1],['ipc_ene',1],['ipc_ali',1],['ipc_ser',1],'ipca','dif_uem','#Salarios','sal_conv','sal_etcl',['sal_ord',1],'clab_etcl','#Sector público y exterior','deficit_m','cc_pib','bys_pib','tur_ing_12m','#Crédito y tipos','euribor12','credito_osr','depositos_osr'],3,4)},
   {k:'trimestral',t:'Mercado laboral y sector público',sub:'Últimos 3 años y 8 trimestres · anual: media del año (paro, ocupados), crecimiento de la media anual (tasas) y cuarto trimestre (deuda y déficit)',src:'Fuente: BBVA Research a partir de INE, Seguridad Social y Banco de España',
    make:()=>periodTable('Q',8,['#Mercado laboral','paro_epa','ocup_epa','ocup_epa_yoy','afil_q_yoy','#Sector público','deuda','deficit_4q'],3)},
 ];
@@ -587,7 +859,7 @@ function viewTablas(){
 }
 function viewFuentes(){
   const m=DATA.meta; const ids=Object.keys(S()).filter(k=>S()[k].block!=='aux');
-  const groups={actividad:'Actividad',coyuntura:'Coyuntura',empleo:'Empleo',precios:'Precios',vivienda:'Vivienda',publico:'Sector público',exterior:'Sector exterior',financiero:'Financiero'};
+  const groups={actividad:'Actividad',coyuntura:'Coyuntura',empleo:'Empleo',precios:'Precios',vivienda:'Vivienda',publico:'Sector público',exterior:'Sector exterior',financiero:'Financiero',credito:'Créditos y depósitos'};
   let h=`<div class="tblwrap"><table><thead><tr><th scope="col">Serie</th><th scope="col" style="text-align:left">Fuente</th><th scope="col" style="text-align:left">Código</th><th scope="col" style="text-align:left">Tratamiento</th><th scope="col">Último dato</th></tr></thead><tbody>`;
   Object.entries(groups).forEach(([g,l])=>{ const sub=ids.filter(k=>S()[k].block===g); if(!sub.length) return; h+=`<tr class="grp"><td colspan="5">${l}</td></tr>`;
     sub.forEach(k=>{ const s=S()[k], L=latest(k); h+=`<tr><td>${esc(s.label)}<span class="u">${esc(s.unit)}</span>${s.original_name?`<div class="note" style="font-size:12px">${esc(s.original_name)}</div>`:''}</td><td class="src">${s.link?`<a href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.source)}</a>`:esc(s.source)}</td><td class="src">${esc(s.table?s.table+' · ':'')}${esc(s.code)}</td><td class="src" style="white-space:normal;min-width:180px">${esc(s.transform==='yoy'?'% sobre el mismo periodo del año anterior, calculado desde niveles':(s.transform||'serie publicada'))}${s.note?' '+esc(s.note):''}</td><td>${fmtDate(L[0],s.freq)}</td></tr>`; }); });
@@ -609,7 +881,7 @@ ${isEN()?`  <div class="prose">
 }
 
 /* -------------------------------------------------------------- explorer: gallery, multi-series chart and scatter */
-const BLOCKS={actividad:'Actividad',coyuntura:'Coyuntura',empleo:'Empleo',precios:'Precios',vivienda:'Vivienda',publico:'Sector público',exterior:'Sector exterior',financiero:'Financiero'};
+const BLOCKS={actividad:'Actividad',coyuntura:'Coyuntura',empleo:'Empleo',precios:'Precios',vivienda:'Vivienda',publico:'Sector público',exterior:'Sector exterior',financiero:'Financiero',credito:'Créditos y depósitos'};
 const ex={view:'galeria', picks:['pib_yoy','paro_epa','afil_yoy','ipc','deuda','prima'], mpicks:['ipc','ipc_sub','ipc_ser'], mpicks2:['pib_yoy','prima'], axis2:{}, mode:'pub', sx:'paro_epa', sy:'ipc_sub', trail:false, range:'4a'};
 try{ const o=JSON.parse(localStorage.getItem('mme-ex')||'null'); if(o&&typeof o==='object') Object.assign(ex,o); }catch(e){}
 if(!['1a','4a','10a','todo'].includes(ex.range)) ex.range='4a'; if(!Array.isArray(ex.spicks)) ex.spicks=['ap_dn','ap_de']; if(ex.sline===undefined) ex.sline='pib_yoy'; if(!Array.isArray(ex.spicks2)) ex.spicks2=['ipc_ene','ipc_ali','ipc_ser']; if(ex.sline2===undefined) ex.sline2='ipc';
@@ -672,7 +944,7 @@ function exGallery(){ const ids=exIds();
 function drawGallery(){ withRange(()=>ex.picks.forEach((id,i)=>{ const h=panel.querySelector(`.chart[data-x="${i}"]`); if(h) ovDraw(h,id,null); })); }
 
 /* ---- multi-series: two charts, each with up to four series on one axis */
-const UNIT_ES={'€/m²':'€/m²','% a/a':'% a/a','%':'%','% PIB':'% del PIB','pp':'pp','pb':'pb','M€':'millones de euros','miles':'miles','índice':'índice','saldo':'saldo'};
+const UNIT_ES={'€/m²':'€/m²','% a/a':'% a/a','%':'%','% PIB':'% del PIB','pp':'pp','pb':'pb','M€':'millones de euros','mm€':'miles de millones de euros','miles':'miles','índice':'índice','saldo':'saldo'};
 function multiParts(key,mkey,n){ const list=ex[key], two=key==='mpicks2';
   const units=[...new Set(list.map(id=>S()[id].unit))]; const mixed=!two&&units.length>1&&ex[mkey]==='pub';
   let sub;
@@ -798,12 +1070,103 @@ function drawScatter(host,pts,f,X,Y,fit){
 }
 
 /* -------------------------------------------------------------- shell */
+
+/* ---- Pizarra de series: one large chart; left panel with chart modes and two tabs (all series / selected) */
+const bb={mode:'lines', tr:'level', picks:['pib_yoy','afil_yoy','ipc'], axis:{}, ltab:'all', q:'', fit:'lin'};
+try{ Object.assign(bb, JSON.parse(localStorage.getItem('mme-bb')||'{}')); }catch(e){}
+function saveBB(){ try{ localStorage.setItem('mme-bb',JSON.stringify({...bb,q:''})); }catch(e){} }
+if(typeof EN!=='undefined') Object.assign(EN,{'Galería Gráfica':'Chart gallery','Mapa de calor':'Heat map'});
+const BB_MODES=[['lines','Líneas'],['dual','Dos ejes'],['bars','Barras'],['stack','Barras apiladas'],['scatter','Dispersión'],['heat','Mapa de calor'],['multiples','Galería Gráfica']];
+const BB_TR=[['level','Nivel'],['z','Estandarizado'],['b100','Base 100']];
+const bbMax=()=>bb.mode==='scatter'?2:((bb.mode==='heat'||bb.mode==='multiples')?8:4);
+const bbAxis=(id,i)=>bb.axis[id]||(i===0?'L':'R');
+function b100Series(id){ const c0=cutoff(), s=S()[id]; const d=s.data.filter(o=>ts(o[0])>=c0); const b=d.length?d[0][1]:1;
+  const k='__b_'+id; DATA.series[k]={...s, block:'aux', unit:'índice', data:d.map(o=>[o[0],b?100*o[1]/b:null,o[2]]).filter(o=>o[1]!=null)}; return k; }
+function bbCommon(){ const f=bb.picks.map(id=>S()[id].freq).reduce((a,b)=>FRANK[a]<=FRANK[b]?a:b);
+  const mk=id=>{ const s=S()[id]; const k='__bb_'+id; DATA.series[k]={...s,block:'aux',freq:f,data:toFreq(s.data,s.freq,f).map(o=>[o[0],o[1],0])}; return k; };
+  return {f, items:bb.picks.map((id,i)=>({id:mk(id),name:S()[id].label,color:COLORS[i%4]}))}; }
+function bbList(){ const q=bb.q.trim().toLowerCase(), full=bb.picks.length>=bbMax();
+  return Object.entries(BLOCKS).map(([b,l])=>{ const ids=exIds().filter(k=>S()[k].block===b&&(!q||(S()[k].label+' '+S()[k].unit+' '+l).toLowerCase().includes(q)));
+    if(!ids.length) return ''; return `<div class="bbh">${esc(l)}</div>`+ids.map(k=>{ const on=bb.picks.includes(k);
+      return `<label><input type="checkbox" data-bbp="${k}" ${on?'checked':''} ${!on&&full?'disabled':''}><span>${esc(S()[k].label)}<span class="u">${esc(S()[k].unit)}</span></span></label>`; }).join(''); }).join('')||'<p class="note">Ninguna serie coincide con la búsqueda.</p>'; }
+function bbSel(){ if(!bb.picks.length) return '<p class="note">No hay series elegidas. Añádelas con el desplegable.</p>';
+  return `<div class="bbsel">${bb.picks.map((id,i)=>`<div class="row"><span class="sw" style="background:var(${COLORS[i%4]})"></span><span>${esc(S()[id].label)} <span class="u">${esc(S()[id].unit)}</span></span>
+    ${bb.mode==='dual'?`<button type="button" data-bbax="${id}" title="Cambiar de eje">${bbAxis(id,i)==='L'?'Eje izq.':'Eje dcho.'}</button>`:'<span></span>'}
+    <button type="button" data-bbrm="${id}" aria-label="Quitar ${esc(S()[id].label)}">✕</button></div>`).join('')}</div>
+`; }
+function bbFigHead(){ const ids=bb.picks; if(!ids.length) return {t:'Pizarra vacía',sub:'Elige series en el panel de la izquierda'};
+  const units=[...new Set(ids.map(id=>S()[id].unit))].map(u=>UNIT_ES[u]||u);
+  const fN={M:'mensual',Q:'trimestral',D:'diaria'};
+  if(bb.mode==='scatter'){ if(ids.length<2) return {t:esc(S()[ids[0]].label),sub:'Dispersión: elige una segunda serie para el eje Y'};
+    return {t:`${esc(S()[ids[1]].label)} frente a ${esc(S()[ids[0]].label)}`,sub:esc(`X: ${S()[ids[0]].unit} · Y: ${S()[ids[1]].unit} · historia completa · ajuste ${({lin:'lineal',quad:'cuadrático',lowess:'no lineal (LOWESS)'})[bb.fit]}`)}; }
+  if(bb.mode==='heat') return {t:'Mapa de calor',sub:'Valores estandarizados por serie en el periodo seleccionado; las series de mayor frecuencia se promedian. Gris: sin datos.'};
+  if(bb.mode==='multiples') return {t:isEN()?'Chart gallery':'Galería Gráfica',sub:isEN()?'Compare the selected series over the same period. Each chart has its own vertical scale.':'Compara las series seleccionadas en el mismo periodo. Cada gráfico tiene su propia escala vertical.'};
+  const modeTxt={lines:'Líneas',dual:'Dos ejes',bars:'Barras',stack:'Barras apiladas'}[bb.mode];
+  const trTxt=bb.mode==='lines'&&bb.tr!=='level'?(bb.tr==='z'?' · estandarizadas (desviaciones típicas sobre la media del periodo)':' · base 100 al inicio del periodo'):'';
+  const conv=(bb.mode==='bars'||bb.mode==='stack')&&new Set(ids.map(id=>S()[id].freq)).size>1?' · las series de mayor frecuencia se promedian a la menor':'';
+  return {t:ids.map(id=>esc(S()[id].label)).join(' / '), sub:esc(`${modeTxt} · ${bb.mode==='lines'&&bb.tr!=='level'?(bb.tr==='z'?'σ':'índice'):units.join(' · ')}${trTxt}${conv}`)}; }
+function loadHeatExample(){ bb.picks=['ipi_yoy','icm_yoy','afil_yoy','paro_reg_yoy','ipc','euribor12','matric','turistas'].filter(id=>S()[id]&&S()[id].block!=='aux'); bb.heatExampleLoaded=true; state.range='4a'; try{localStorage.setItem('mme-range',state.range)}catch(e){} saveBB(); }
+function viewBoard(){
+  if(bb.mode==='heat'&&!bb.heatExampleLoaded) loadHeatExample();
+  bb.picks=bb.picks.filter(id=>S()[id]&&S()[id].block!=='aux');
+  if(bb.mode==='scatter'){ const d=['paro_epa','ipc_sub']; while(bb.picks.length<2) bb.picks.push(d.find(x=>!bb.picks.includes(x))||exIds().find(x=>!bb.picks.includes(x))); }
+  if(bb.mode!=='scatter') bb.picks=bb.picks.slice(0,bbMax());
+  const H=bbFigHead(), units=new Set(bb.picks.map(id=>unitLabel(S()[id].unit)));
+  panel.innerHTML=`<div class="sechead"><h2>Pizarra de series temporales</h2>${bb.mode==='scatter'?'':rangeCtl()}</div>
+   <div class="bbwrap"><aside class="bbside" aria-label="Opciones de la pizarra">
+     <div class="bbgrp"><span class="picklab">Modalidad de gráfico</span><div class="bbmodes">${BB_MODES.map(([k,l])=>`<button type="button" data-bbm="${k}" aria-pressed="${bb.mode===k}">${l}</button>`).join('')}</div></div>
+     ${bb.mode==='heat'?`<div class="bbgrp"><button type="button" class="btn ghost" id="bb-example">${isEN()?'Business cycle example':'Ejemplo: cuadro de coyuntura'}</button><p class="note">${isEN()?'Eight monthly indicators · four years':'Ocho indicadores mensuales · cuatro años'}</p></div>`:''}
+     ${bb.mode==='lines'?`<div class="bbgrp"><span class="picklab">Transformación</span><div class="bbtr">${BB_TR.map(([k,l])=>`<button type="button" data-bbt="${k}" aria-pressed="${bb.tr===k}">${l}</button>`).join('')}</div></div>`:''}
+     ${bb.mode==='scatter'?`<div class="bbgrp"><span class="picklab">Ajuste</span><div class="bbtr">${[['lin','Lineal'],['quad','Cuadrático'],['lowess','No lineal']].map(([k,l])=>`<button type="button" data-bbf="${k}" aria-pressed="${bb.fit===k}">${l}</button>`).join('')}</div></div>`:''}
+     ${bb.mode==='scatter'?`<div class="bbgrp"><label class="picklab" for="bbx">Eje horizontal (X)</label><select id="bbx" class="axsel">${seriesOptions([],bb.picks[0]||null)}</select></div>
+     <div class="bbgrp"><label class="picklab" for="bby">Eje vertical (Y)</label><select id="bby" class="axsel">${seriesOptions([],bb.picks[1]||null)}</select></div>
+     <button type="button" class="btn ghost" id="bbswap">Intercambiar ejes</button>`
+     :`<div class="bbgrp"><label class="picklab" for="bbadd">Series (${bb.picks.length}/${bbMax()})</label>
+       <select id="bbadd" class="axsel" ${bb.picks.length>=bbMax()?'disabled':''}><option value="">${bb.picks.length>=bbMax()?'Máximo de series alcanzado':'Añadir una serie…'}</option>${seriesOptions(bb.picks)}</select>${bbSel()}</div>`}
+   </aside>
+   <figure class="${bb.mode==='multiples'?'bbgallery':'fig'}" style="margin:0;min-width:0">${bb.mode==='multiples'?'':`<div><h3>${H.t}</h3><div class="sub">${H.sub}</div></div>`}
+     <div class="lg" id="bblg"></div><div class="chart" id="bbchart"></div>
+     ${bb.picks.length&&bb.mode!=='multiples'?`<figcaption class="src">Fuente: ${srcLine(bb.picks)}${(bb.mode==='lines'&&bb.tr==='level'||bb.mode==='bars'||bb.mode==='stack')&&units.size>1?`<br><span class="mixnote">Las series tienen unidades distintas: usa «Dos ejes» o la transformación «Estandarizado» para compararlas.</span>`:''}</figcaption>`:''}</figure></div>`;
+  bindRange();
+  const rerender=()=>{ saveBB(); viewBoard(); };
+  const example=document.getElementById('bb-example'); if(example) example.addEventListener('click',()=>{loadHeatExample(); render();});
+  panel.querySelectorAll('[data-bbm]').forEach(b=>b.addEventListener('click',()=>{ bb.mode=b.dataset.bbm; rerender(); }));
+  panel.querySelectorAll('[data-bbt]').forEach(b=>b.addEventListener('click',()=>{ bb.tr=b.dataset.bbt; rerender(); }));
+  panel.querySelectorAll('[data-bbf]').forEach(b=>b.addEventListener('click',()=>{ bb.fit=b.dataset.bbf; rerender(); }));
+    panel.querySelectorAll('[data-bbrm]').forEach(b=>b.addEventListener('click',()=>{ bb.picks=bb.picks.filter(x=>x!==b.dataset.bbrm); rerender(); }));
+  panel.querySelectorAll('[data-bbax]').forEach(b=>b.addEventListener('click',()=>{ const id=b.dataset.bbax; bb.axis[id]=bbAxis(id,bb.picks.indexOf(id))==='L'?'R':'L'; rerender(); }));
+  const sw=document.getElementById('bbswap'); if(sw) sw.addEventListener('click',()=>{ bb.picks.reverse(); rerender(); });
+  const add=document.getElementById('bbadd'); if(add) add.addEventListener('change',()=>{ if(add.value&&bb.picks.length<bbMax()&&!bb.picks.includes(add.value)){ bb.picks.push(add.value); rerender(); } });
+  [['bbx',0],['bby',1]].forEach(([k,i])=>{ const el=document.getElementById(k); if(el) el.addEventListener('change',()=>{ const p=bb.picks.slice(); const j=p.indexOf(el.value); if(j>1) p.splice(j,1); p[i]=el.value; bb.picks=p; rerender(); }); });
+  drawBoard(); observe(drawBoard); tr(panel);
+}
+function drawBoard(){ const h=document.getElementById('bbchart'), lg=document.getElementById('bblg'); if(!h) return; if(!bb.picks.length){ h.innerHTML=''; lg.innerHTML=''; return; }
+  if(bb.mode==='heat'){ drawHeatBoard(h); lg.innerHTML=''; return; }
+  if(bb.mode==='multiples'){ lg.innerHTML=''; h.innerHTML='<div class="bbmultiples">'+bb.picks.map((id,i)=>`<figure class="fig bbmini" style="margin:0"><div><h3>${esc(S()[id].label)}</h3><div class="sub">${esc(unitLabel(S()[id].unit))} · ${esc((isEN()?{D:'daily',M:'monthly',Q:'quarterly'}:{D:'diaria',M:'mensual',Q:'trimestral'})[S()[id].freq]||S()[id].freq)}</div></div><div class="bbmini-chart" data-mini="${i}"></div><figcaption class="src">Fuente: ${srcLine([id])}</figcaption></figure>`).join('')+'</div>'; bb.picks.forEach((id,i)=>drawChart(h.querySelector(`[data-mini="${i}"]`),{lines:[{id,name:S()[id].label,color:COLORS[i%4]}],aria:S()[id].label,height:210,zero:false})); return; }
+  const W=Math.max(280,h.clientWidth), height=Math.round(Math.min(560,Math.max(340,W*0.5)));
+  if(bb.mode==='scatter'){ if(bb.picks.length<2){ h.innerHTML=''; lg.innerHTML=''; return; }
+    const keep={sx:ex.sx,sy:ex.sy,fit:ex.fit}; ex.sx=bb.picks[0]; ex.sy=bb.picks[1]; ex.fit=bb.fit;
+    try{ const {pts,f,X,Y}=scatterData(); drawScatter(h,pts,f,X,Y,fitFor(pts)); } finally{ Object.assign(ex,keep); } lg.innerHTML=''; return; }
+  if(bb.mode==='dual'){ const L=[],R=[]; bb.picks.forEach((id,i)=>{ const o={id,name:S()[id].label+(bbAxis(id,i)==='L'?' (eje izq.)':' (eje dcho.)'),color:COLORS[i%4]}; (bbAxis(id,i)==='L'?L:R).push(o); });
+    lg.innerHTML=legendHTML([...L,...R]); if(!L.length&&R.length) L.push(R.shift()); drawChart(h,{lines:L,rlines:R,aria:'pizarra',height}); tr(lg); return; }
+  if(bb.mode==='bars'||bb.mode==='stack'){ const C=bbCommon(); lg.innerHTML=legendHTML(C.items,C.items); drawChart(h,{bars:C.items,stack:bb.mode==='stack',zero:true,aria:'pizarra',height}); tr(lg); return; }
+  const shortOf=l=>{ const t=isEN()?toEN(l):l; return t.length>24?t.slice(0,22).trim()+'…':t; };
+  const lines=bb.picks.map((id,i)=>({id:bb.tr==='z'?zSeries(id):bb.tr==='b100'?b100Series(id):id, name:S()[id].label, short:shortOf(S()[id].label), color:COLORS[i%4]}));
+  lg.innerHTML=legendHTML(lines); drawChart(h,{lines,aria:'pizarra',height,zero:bb.tr==='z',endLabels:lines.length<=4}); tr(lg); }
+function drawHeatBoard(host){
+  const c=cutoff(), freq=bb.picks.some(id=>S()[id].freq==='Q')?'Q':'M';
+  const rows=bb.picks.map(id=>{const src=S()[id],d=toFreq(src.data,src.freq,freq).filter(o=>ts(o[0])>=c&&Number.isFinite(o[1])),v=d.map(o=>o[1]),mean=v.reduce((a,b)=>a+b,0)/(v.length||1),sd=Math.sqrt(v.reduce((a,b)=>a+(b-mean)**2,0)/Math.max(1,v.length-1));return {src,d,map:new Map(d),mean,sd};});
+  const dates=[...new Set(rows.flatMap(r=>r.d.map(o=>o[0])))].sort();
+  if(!dates.length){host.innerHTML='<p class="note">Sin datos en este periodo.</p>';return;}
+  const cell=(r,date)=>{if(!r.map.has(date))return '<td class="bbmissing" title="Sin datos"></td>';const v=r.map.get(date),z=r.sd?(v-r.mean)/r.sd:0,a=Math.min(1,Math.abs(z)/2),color=z>=0?`rgba(31,63,209,${0.12+0.78*a})`:`rgba(216,115,42,${0.12+0.78*a})`,txt=`${r.src.label} · ${date} · ${v.toLocaleString('es-ES',{maximumFractionDigits:2})} ${r.src.unit} · z=${z.toFixed(2)}`;return `<td style="background:${color}" title="${esc(txt)}" aria-label="${esc(txt)}"></td>`;};
+  host.innerHTML=`<p class="note">${freq==='Q'?'Trimestral':'Mensual'} · azul: sobre la media · naranja: bajo la media · intensidad: distancia a la media (σ) · gris: sin datos</p><div class="bbheat-scroll"><table class="bbheat"><thead><tr><th>Serie</th>${dates.map(d=>`<th title="${d}">${freq==='Q'?d.slice(0,4)+' T'+(Math.floor((+d.slice(5,7)-1)/3)+1):d.slice(0,7)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr><th title="${esc(r.src.label)}">${esc(r.src.label)}</th>${dates.map(d=>cell(r,d)).join('')}</tr>`).join('')}</tbody></table></div><p class="note">Los datos diarios se promedian por mes o trimestre y los mensuales por trimestre; se requieren 15 días por mes, 40 por trimestre o los tres meses. La media y desviación típica se calculan por serie en el periodo visible; una serie constante tiene z = 0.</p>`;
+}
 function renderTabs(){ const t=document.getElementById('tabs'); t.innerHTML=TABS.map(x=>`<button type="button" role="tab" id="tab-${x.k}" aria-selected="${x.k===state.tab}" tabindex="${x.k===state.tab?0:-1}" data-k="${x.k}">${x.l}</button>`).join('');
   t.querySelectorAll('button').forEach((b,i,all)=>{ b.addEventListener('click',()=>go(b.dataset.k)); b.addEventListener('keydown',e=>{ if(!['ArrowRight','ArrowLeft'].includes(e.key)) return; e.preventDefault(); const j=(i+(e.key==='ArrowRight'?1:-1)+all.length)%all.length; all[j].focus(); go(all[j].dataset.k); }); });
   const sel=t.querySelector('[aria-selected="true"]'); if(sel) sel.scrollIntoView({block:'nearest',inline:'nearest'}); }
 function go(k){ state.tab=k; try{ history.replaceState(null,'','#'+k); }catch(e){ location.hash=k; } render(); window.scrollTo({top:0}); }
 function render(){ renderTabs(); panel.setAttribute('aria-labelledby','tab-'+state.tab); if(ro){ro.disconnect();ro=null;}
-  if(state.tab==='resumen') viewResumen(); else if(state.tab==='explorador') viewExplorer(); else if(state.tab==='tablas') viewTablas(); else if(state.tab==='previsiones') viewPrevisiones(); else if(state.tab==='fuentes') viewFuentes(); else viewBlock(state.tab);
+  if(state.tab==='resumen') viewResumen(); else if(state.tab==='explorador') viewExplorer(); else if(state.tab==='pizarra') viewBoard(); else if(state.tab==='tablas') viewTablas(); else if(state.tab==='previsiones') viewPrevisiones(); else if(state.tab==='fuentes') viewFuentes(); else viewBlock(state.tab);
   document.getElementById('stamp').textContent='Datos: '+DATA.meta.refreshed+' · '+DATA.meta.n_series+' series';
   document.getElementById('foot').innerHTML=`Fuentes: INE, Banco de España, Seguridad Social, SEPE (Ministerio de Trabajo), Ministerio de Vivienda y Ministerio de Economía, Comercio y Empresa (BDSICE). Elaboración: BBVA Research. Datos a ${esc(DATA.meta.refreshed)}.`;
   document.documentElement.lang=LANG; document.title=isEN()?'BBVA Research Spain Macro Monitor':'BBVA Research Monitor Macro España';
@@ -814,7 +1177,7 @@ async function reload(manual){
   const msg=document.getElementById('liveMsg'); const before=DATA.meta.refreshed;
   if(manual) msg.textContent=isEN()?'Checking data.json…':'Comprobando data.json…';
   try{ const r=await fetch('data.json',{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); const u=await r.json(); if(!u.series||!u.meta) throw new Error('formato');
-    if(u.meta.refreshed>=before){ DATA=u; SOURCE_NOTE='data.json de este sitio'; }
+    if(u.meta.refreshed>=before){ if(!u.forecasts && DATA.forecasts) u.forecasts=DATA.forecasts; DATA=u; SOURCE_NOTE='data.json de este sitio'; }
     const hh=new Date().toLocaleTimeString(isEN()?'en-GB':'es-ES',{hour:'2-digit',minute:'2-digit'}); msg.textContent=isEN()?(DATA.meta.refreshed!==before?'New data loaded':'No new data')+' · checked at '+hh:(DATA.meta.refreshed!==before?'Datos nuevos cargados':'Sin datos nuevos')+' · comprobado a las '+hh;
     if(DATA.meta.refreshed!==before) render();
   }catch(e){ if(manual) msg.textContent=isEN()?'Could not read data.json ('+e.message+'). Showing the embedded data from '+DATA.meta.refreshed+'.':'No se pudo leer data.json ('+e.message+'). Se muestran los datos incrustados del '+DATA.meta.refreshed+'.'; }
@@ -830,3 +1193,5 @@ if(location.protocol!=='file:'){ reload(false); setInterval(()=>reload(false),15
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>render());
 new MutationObserver(()=>render()).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 </script>
+
+</body></html>
